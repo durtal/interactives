@@ -1,0 +1,22 @@
+{
+  "name": "interactives",
+  "version": "0.0.0",
+  "homepage": "https://github.com/durtal/interactives",
+  "authors": [
+    "Tom Heslop <t_heslop@hotmail.co.uk>"
+  ],
+  "description": "repo containing various interactive things",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "d3": "~3.5.5",
+    "underscore": "~1.8.3"
+  }
+}

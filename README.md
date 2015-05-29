@@ -3,7 +3,7 @@ Interactive Experiments
 
 This repo will contain various interactive visualisation projects I start, attempt, bludgeon, butcher, complete?, etc.
 
-The primary Javascript libraries I use are [D3js](http://d3js.org/) and [AngularJS](https://angularjs.org/), though I will hopefully explore alternatives.  I'll also attempt to list tutorials, posts, exampls that I found useful/inspiring when attempting any of these projects.
+The primary Javascript libraries I use are [D3js](http://d3js.org/) and [AngularJS](https://angularjs.org/), though I will hopefully explore alternatives.  The primary libraries are included in the `bower.json`, but further dependencies might be required in each subfolder.  I'll also attempt to list tutorials, posts, exampls that I found useful/inspiring when attempting any of these projects.
 
 ### Explorable Explanations
 
