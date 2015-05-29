@@ -17,6 +17,7 @@
   "dependencies": {
     "angular": "~1.4.0",
     "d3": "~3.5.5",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "bootswatch-dist": "3.3.0-simplex"
   }
 }
