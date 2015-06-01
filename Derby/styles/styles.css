@@ -1,0 +1,37 @@
+body {
+    color: #424242;
+    text-align: justify;
+}
+
+.title {
+    text-align: center;
+}
+
+p {
+    font-size: 12px;
+}
+/* styles for plots */
+.axis {
+    stroke: #34495E;
+    fill: #34495E;
+}
+.axis text, .axis {
+    font-size: 12px;
+    fill: #34495E;
+    stroke: none;
+}
+/* remove sectional scatterplot axes at the start of a race */
+.start {
+    opacity: 0;
+}
+
+
+/* tooltips */
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+    background-color: #FCFCFC;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html ng-app="DerbyApp">
+    <head>
+        <title>2015 Derby Visualisation</title>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/styles.css">
+    </head>
+    <body ng-controller="MainCtrl">
+
+        <div class="container">
+            <div class="title">
+                <h1>2015 Derby Sectionals Visualisation</h1>
+                <h3>WORK IN PROGRESS SO TEXT AND SECTIONAL DATA IS TEMPORARY</h3>
+                <h4><strong>1</strong> Scooby Doo. <strong>2</strong> Scrappy Doo. <strong>3</strong> Shaggy</h4>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <p>Epsom presented the opportunity to record more sectionals than at Newbury, furlong markers were more easily identifiable (especially slowing the video down and using the time-stamp in MovieMaker), but also paths provided solid landmarks, so sectionals came after ~2f, ~5f(path), ~8.5f(path), ~10f, and ~11f.  The camera work, wider shots etc, also made the beaten lengths easier to establish, although the home straight is obviously more difficult with runners running head on (and some out of shot completely, luckily these weren’t any of the main contenders).</p>
+                    <p>Below are the Google Earth screenshots, showing where the sectionals were roughly taken, they should be in order.  The large red arrow on the main GE screen shows where the sectionals are on the 1m4f path, and the elevation profile below shows the terrain over which the horses will have roughly travelled, and are yet to travel.  The rising ground is clear to see, having risen from ~113m up to ~151m, which marks the runners reaching the “top” of the 1m4f course and our second sectional (using a path measured as ~1.01km on GE, or ~5f).  From that point, it levels out a little  From here the course gradually falls away to the finish.  (clicking any of the images should open a slideshow, hopefully images are labelled and in order.)</p>
+                </div>
+                <div class="row-fluid">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+                <div class="row-fluid">
+                    <h2>{{ dists[sectional]}}</h2>
+                </div>
+                <scatter-plot data="raceData" x="{{xSect}}" y="horse" z="{{iSect}}"></scatter-plot>
+                <div class="row-fluid">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+                <div class="row-fluid">
+                    <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
+                    <div class="col-md-5">
+                        <p>The Derby not only pits the best 3yo colts against one another, it also tests the tractability of individuals.  The Epsom Derby course is like no other, it twists and turns and rises and falls, stretching and punishing horses who race inefficiently.</p>
+                        <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 600m (~3furlongs), the horses will climb almost 20metres, while the highest point comes after roughly 1000m (~5furlongs) and is 35metres above the starting gates.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post falling 25m below the highest point.</p>
+                    </div>
+                    <div class="col-md-7">
+                        <elevation-plot data="data" x="{{xVar}}" y="{{yVar}}" sectionalcompleted="sectionalcompleted"></elevation-plot>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootswatch-dist/js/bootstrap.js"></script>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <script src="scripts/directives/elevationPlot.js"></script>
+        <script src="scripts/directives/scatterPlot.js"></script>
+    </body>
+</html>
