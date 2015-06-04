@@ -14,10 +14,10 @@ app
                     width = parentWidth - margin.left - margin.right,
                     parentHeight = parentWidth / 6 * 2.5,
                     height = parentHeight - margin.top - margin.bottom;
-            
+
             // define variables
-            var xVar = scope.xVar,
-                yVar = scope.yVar,
+            var xVar = scope.vars.x,
+                yVar = scope.vars.y,
                 data = scope.data;
             // initialise vis
             var svg = d3.select(element[0])
@@ -63,7 +63,7 @@ app
                     .attr('text-anchor', 'end')
                     .attr('x', width)
                     .attr('y', height-5)
-                    .text('Distance (m)')
+                    .text('Distance (m)');
             svg.append('text')
                     .attr('class', 'y axis')
                     .attr('text-anchor', 'middle')
@@ -111,8 +111,7 @@ app
             scope: {
                 data: '=',
                 sectionalcompleted: '=',
-                xVar: '@x',
-                yVar: '@y'
+                vars: '='
             },
             link: link
         };
