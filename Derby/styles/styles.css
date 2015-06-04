@@ -6,32 +6,89 @@ body {
 .title {
     text-align: center;
 }
-
+h1 {
+    font-size: 50px;
+}
 p {
     font-size: 12px;
 }
+
+/* table styles */
+.derby-sects {
+    border: 1px solid #424242;
+    border-bottom: 2px solid #424242;
+}
+table>thead>tr>td {
+    border-top: 1px solid #424242;
+    font-weight: bold;
+    color: #000000;
+}
+table>tbody>tr>td.horse, table>thead>tr>td.horse {
+    vertical-align: middle;
+    font-size: 18px;
+}
+table>tbody>tr>td.sects, table>thead>tr>td.sects {
+    font-size: 11px;
+    border-left: 2px solid #424242;
+}
+a,
+a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+a:focus {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #D9220F;
+}
+table>tbody>tr>td.pos, table>thead>tr>td.pos {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+table>tbody>tr>td.silks {
+    text-align: right;
+    vertical-align: middle
+}
+.csects {
+    float: left;
+    color: #424242;
+    font-weight: bold;
+}
+thead>tr>td>a.isects {
+    float: right;
+}
+tbody>tr>td>span.isects {
+    float: right;
+    color: #808080;
+}
+
+/* progress bar to be pinned to the top */
+.progress-bar {
+    position: fixed;
+    float: left;
+    background-color: #D9220F;
+    height: 10px;
+    width: '0%';
+}
+
 /* styles for plots */
 .axis {
-    stroke: #34495E;
-    fill: #34495E;
+    stroke: #424242;
+    fill: #424242;
 }
 .axis text, .axis {
     font-size: 12px;
-    fill: #34495E;
+    fill: #424242;
     stroke: none;
 }
+
 /* remove sectional scatterplot axes at the start of a race */
 .start {
     opacity: 0;
 }
 
-
 /* tooltips */
-div.tooltip {
-    position: absolute;
-    text-align: center;
-    width: 60px;
-    height: 60px;
-    font-size: 12px;
-    background-color: #FCFCFC;
+#tooltip {
+    opacity: 0;
 }

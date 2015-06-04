@@ -1,26 +1,147 @@
 <!DOCTYPE html>
 <html ng-app="DerbyApp">
     <head>
-        <title>2015 Derby Visualisation</title>
+        <title>2015 Derby: Interactive Sectionals Analysis</title>
 
         <meta charset="utf-8">
         <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
         <link rel="stylesheet" href="styles/styles.css">
     </head>
-    <body ng-controller="MainCtrl">
-
+    <body ng-controller="MainCtrl"  ng-cloak>
+        <div class="progress-bar"></div>
         <div class="container">
             <div class="title">
-                <h1>2015 Derby Sectionals Visualisation</h1>
-                <h3>WORK IN PROGRESS SO TEXT AND SECTIONAL DATA IS TEMPORARY</h3>
-                <h4><strong>1</strong> Scooby Doo. <strong>2</strong> Scrappy Doo. <strong>3</strong> Shaggy</h4>
+                <h1>2015 Derby</h1>
+                <h3>Winner: <img ng-src="{{raceData[0].silk}}" alt=""> {{ raceData[0].horse }}</h3>
             </div>
-            <div class="container-fluid">
-                <div class="row-fluid">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-sm-12"></div>
+                    <hr>
+                    <div class="col-sm-11">
+                        <p>The table below shows the first 3 in the 2015 Derby, to see all runners click the button to the right.  The table can be reorderd according to the different variables in the table header (with the exception of Horse), simply clicking on one will reorder the table.  In each of the smaller cells there are typically 4 numbers related to a sectional, times (and other data) were recorded at 2f, 5f, 8.5f, 10f, 11f, and the finish.  In the top left corner of a cell is the cumulative time; top right is the time the horse covered the previous sectional; bottom left is the finishing speed; and bottom right is the position of the runner at that sectional.</p>
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-info btn-sm" ng-click="showAll()">Show All</button>
+                    </div>
+                </div>
+                <div class="col-sm-6"></div>
+                <div class="col-sm-1 title">
+                    <h4>2f</h4>
+                </div>
+                <div class="col-sm-1 title">
+                    <h4>5f</h4>
+                </div>
+                <div class="col-sm-1 title">
+                    <h4>8.5f</h4>
+                </div>
+                <div class="col-sm-1 title">
+                    <h4>10f</h4>
+                </div>
+                <div class="col-sm-1 title">
+                    <h4>11f</h4>
+                </div>
+                <div class="col-sm-1 title">
+                    <h4>12f</h4>
+                </div>
+                <table class="table table-condensed table-hover">
+                    <thead class="derby-sects">
+                        <tr class="info">
+                            <td class="col-sm-1 horse hidden-xs" rowspan="2"></td>
+                            <td class="col-sm-4 horse" rowspan="2">Horse</td>
+                            <td class="col-sm-1 pos" rowspan="2">
+                                <a href="" ng-click="reverse=!reverse; order('pos', reverse)">Pos</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c2f', reverse)">2f</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c5f', reverse)">5f</a>
+                                <a href="" ng-click="reverse=!reverse; order('s5f', reverse)" class="isects">(2f-5f)</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c8_5f', reverse)">8.5f</a>
+                                <a href="" ng-click="reverse=!reverse; order('s8_5f', reverse)" class="isects">(5f-8.5f)</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c10f', reverse)">10f</a>
+                                <a href="" ng-click="reverse=!reverse; order('s10f', reverse)" class="isects">(8.5f-10f)</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c11f', reverse)">c11f</a>
+                                <a href="" ng-click="reverse=!reverse; order('s11f', reverse)" class="isects">(10f-11f)</a>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <a href="" ng-click="reverse=!reverse; order('c12f', reverse)">c12f</a>
+                                <a href="" ng-click="reverse=!reverse; order('s12f', reverse)" class="isects">(11f-12f)</a>
+                            </td>
+                        </tr>
+                        <tr class="info">
+                            <td class="sects">
+                                <a href="" ng-click="reverse=!reverse; order('fs10f', reverse)">10f FS</a>
+                            </td>
+                            <td class="sects">
+                                <a href="" ng-click="reverse=!reverse; order('fs7f', reverse)">7f FS</a>
+                            </td>
+                            <td class="sects">
+                                <a href="" ng-click="reverse=!reverse; order('fs3_5f', reverse)">3.5f FS</a>
+                            </td>
+                            <td class="sects">
+                                <a href="" ng-click="reverse=!reverse; order('fs2f', reverse)">2f FS</a>
+                            </td>
+                            <td class="sects">
+                                <a href="" ng-click="reverse=!reverse; order('fs1f', reverse)">1f FS</a>
+                            </td>
+                            <td class="sects"></td>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="runner in topThree">
+                        <tr class="hello">
+                            <td class="col-sm-1 silks hidden-xs" rowspan="2">
+                                <img ng-src="{{ runner.silk }}" class="silks">
+                            </td>
+                            <td class="col-sm-4 horse" rowspan="2">{{ runner.horse }}</td>
+                            <td class="col-sm-1 pos" rowspan="2">{{ runner.pos }}</td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c2f | number: 2 }}</span>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c5f | number: 2 }}</span>
+                                <span class="isects">{{ runner.s5f | number: 2 }}</span>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c8_5f | number: 2 }}</span>
+                                <span class="isects">{{ runner.s8_5f | number: 2 }}</span>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c10f | number: 2 }}</span>
+                                <span class="isects">{{ runner.s10f | number: 2 }}</span>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c11f | number: 2 }}</span>
+                                <span class="isects">{{ runner.s11f | number: 2 }}</span>
+                            </td>
+                            <td class="col-sm-1 sects">
+                                <span class="csects">{{ runner.c12f | number: 2 }}</span>
+                                <span class="isects">{{ runner.s12f | number: 2 }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="sects">{{ runner.fs10f * 100 | number: 1 }}%</td>
+                            <td class="sects">{{ runner.fs7f * 100 | number: 1 }}%</td>
+                            <td class="sects">{{ runner.fs3_5f * 100 | number: 1 }}%</td>
+                            <td class="sects">{{ runner.fs2f * 100 | number: 1 }}%</td>
+                            <td class="sects">{{ runner.fs1f * 100 | number: 1 }}%</td>
+                            <td class="sects"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
                     <p>Epsom presented the opportunity to record more sectionals than at Newbury, furlong markers were more easily identifiable (especially slowing the video down and using the time-stamp in MovieMaker), but also paths provided solid landmarks, so sectionals came after ~2f, ~5f(path), ~8.5f(path), ~10f, and ~11f.  The camera work, wider shots etc, also made the beaten lengths easier to establish, although the home straight is obviously more difficult with runners running head on (and some out of shot completely, luckily these weren’t any of the main contenders).</p>
                     <p>Below are the Google Earth screenshots, showing where the sectionals were roughly taken, they should be in order.  The large red arrow on the main GE screen shows where the sectionals are on the 1m4f path, and the elevation profile below shows the terrain over which the horses will have roughly travelled, and are yet to travel.  The rising ground is clear to see, having risen from ~113m up to ~151m, which marks the runners reaching the “top” of the 1m4f course and our second sectional (using a path measured as ~1.01km on GE, or ~5f).  From that point, it levels out a little  From here the course gradually falls away to the finish.  (clicking any of the images should open a slideshow, hopefully images are labelled and in order.)</p>
                 </div>
-                <div class="row-fluid">
+                <div class="row">
                     <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
                         <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
                     </button>
@@ -28,11 +149,38 @@
                         next Sectional <span class="glyphicon glyphicon-hand-right"></span>
                     </button>
                 </div>
-                <div class="row-fluid">
+                <div class="row">
                     <h2>{{ dists[sectional]}}</h2>
                 </div>
-                <scatter-plot data="raceData" x="{{xSect}}" y="horse" z="{{iSect}}"></scatter-plot>
-                <div class="row-fluid">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <scatter-plot data="raceData" x="{{xSect}}" y="pos" z="{{iSect}}" vars="config"></scatter-plot>
+                    </div>
+                    <div class="col-sm-3">
+                        <div id="tooltip">
+                            <!-- tooltip -->
+                            <h3 class="title" id="horse"></h3>
+                            <table class="table table-condensed">
+                                <tbody>
+                                    <tr>
+                                        <td>Cumulative Time</td>
+                                        <td id="xVar"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sectional Time</td>
+                                        <td id="zVar"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Finishing Speed</td>
+                                        <td id="fsVar"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- tooltip -->
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
                         <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
                     </button>
@@ -40,17 +188,34 @@
                         next Sectional <span class="glyphicon glyphicon-hand-right"></span>
                     </button>
                 </div>
-                <div class="row-fluid">
-                    <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
+                <div class="row">
                     <div class="col-md-5">
+                        <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
+
                         <p>The Derby not only pits the best 3yo colts against one another, it also tests the tractability of individuals.  The Epsom Derby course is like no other, it twists and turns and rises and falls, stretching and punishing horses who race inefficiently.</p>
-                        <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 600m (~3furlongs), the horses will climb almost 20metres, while the highest point comes after roughly 1000m (~5furlongs) and is 35metres above the starting gates.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post falling 25m below the highest point.</p>
+                        <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 400m (~2furlongs), the horses climb almost 20metres, while the highest point comes after roughly 1000m (~5furlongs) and is 35metres above the starting gates.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post 25m below the highest point.</p>
                     </div>
                     <div class="col-md-7">
-                        <elevation-plot data="data" x="{{xVar}}" y="{{yVar}}" sectionalcompleted="sectionalcompleted"></elevation-plot>
+                        <h3 class="title">{{ dists[sectional-1]}}-{{ dists[sectional] }}</h3>
+                        <elevation-plot data="elevation" vars="elevationVars" sectionalcompleted="elevationCompleted"></elevation-plot>
                     </div>
                 </div>
             </div>
+            <hr>
+            <h4>Any comments, feedback, suggestions would be welcomed.</h4>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'derby2015';
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
         </div>
 
         <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -60,8 +225,12 @@
         <script src="../bower_components/underscore/underscore.js"></script>
 
         <script src="scripts/app.js"></script>
+        <!-- controllers -->
         <script src="scripts/controllers/MainCtrl.js"></script>
+        <!-- directives -->
         <script src="scripts/directives/elevationPlot.js"></script>
         <script src="scripts/directives/scatterPlot.js"></script>
+        <!-- services -->
+        <script src="scripts/services/elevationData.js"></script>
     </body>
 </html>
