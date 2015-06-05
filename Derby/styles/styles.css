@@ -12,7 +12,10 @@ h1 {
 p {
     font-size: 12px;
 }
-
+/* button to show all runners */
+#showAll {
+    float: center;
+}
 /* table styles */
 .derby-sects {
     border: 1px solid #424242;
@@ -23,12 +26,15 @@ table>thead>tr>td {
     font-weight: bold;
     color: #000000;
 }
-table>tbody>tr>td.horse, table>thead>tr>td.horse {
+table>tbody>tr>td.horse,
+table>thead>tr>td.horse {
     vertical-align: middle;
     font-size: 18px;
 }
-table>tbody>tr>td.sects, table>thead>tr>td.sects {
+table>tbody>tr>td.sects,
+table>thead>tr>td.sects {
     font-size: 11px;
+    font-weight: normal;
     border-left: 2px solid #424242;
 }
 a,
@@ -41,7 +47,8 @@ a:focus {
     text-decoration: underline;
     color: #D9220F;
 }
-table>tbody>tr>td.pos, table>thead>tr>td.pos {
+table>tbody>tr>td.pos,
+table>thead>tr>td.pos {
     text-align: center;
     vertical-align: middle;
     font-size: 16px;
@@ -61,6 +68,12 @@ thead>tr>td>a.isects {
 tbody>tr>td>span.isects {
     float: right;
     color: #808080;
+}
+thead>tr>td.distHeader {
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    border-left: 2px solid #424242;
 }
 
 /* progress bar to be pinned to the top */
@@ -90,5 +103,13 @@ tbody>tr>td>span.isects {
 
 /* tooltips */
 #tooltip {
-    opacity: 0;
+    display: none;
+}
+
+.blog {
+    display: none;
+}
+
+#s0 {
+    display: block;
 }

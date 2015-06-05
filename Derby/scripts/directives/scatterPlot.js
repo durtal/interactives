@@ -64,15 +64,22 @@ app
                         .attr('width', 52)
                         .attr('height', 42)
                         .attr('class', 'runner')
+                        .attr('id', function(d) {
+                            return 'pos' + d[vars.yVar];
+                        })
                         .on('mouseover', function(d) {
                             tooltips.show(d);
                         })
                         .on('mouseout', function() {
                             tooltips.hide();
+                        })
+                        .on('click', function(d) {
+                            tooltips.show(d);
                         });
                 // tooltips functions (better to add content in data as a string?)
                 var tooltips = {}
                 tooltips.show = function(d) {
+                    // fill tooltip
                     d3.select('#horse')
                         .html(d[vars.yVar] + '.   ' + d[vars.horse]);
                     d3.select('#xVar')
@@ -82,13 +89,23 @@ app
                     d3.select('#fsVar')
                         .html((d[vars.fsVar] * 100).toFixed(2) + '%');
                     d3.select('#tooltip')
-                        .style('opacity', 1);
+                        .style('display', 'block');
+                    // handle colors/opacity
+                    d3.selectAll('.slopes, .runner')
+                        .style('opacity', 0.2)
+                    d3.selectAll('#pos' + d[vars.yVar])
+                        .style('opacity', 1)
+                        .style('stroke', '#d9220f');
+                        // d3.select('#pos' + d.pos + '.runner').style('opacity', 1);
                 };
                 tooltips.hide = function() {
+                    // hide tooltip
                     d3.select('#tooltip')
-                        .transition()
-                        .duration(200)
-                        .style('opacity', 0);
+                        .style('display', 'none');
+                    // handle colors/opacity
+                    d3.selectAll('.slopes, .runner')
+                        .style('opacity', 1)
+                        .style('stroke', '#424242')
                 };
                 // axes and axis labels
                 svg.append('g')
