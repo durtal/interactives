@@ -87,7 +87,18 @@ app
                     d3.select('#zVar')
                         .html(d[vars.zVar].toFixed(2));
                     d3.select('#fsVar')
-                        .html((d[vars.fsVar] * 100).toFixed(2) + '%');
+                        .html(d[vars.fsVar].toFixed(2) + '%');
+                    d3.select('#bhd-ldr')
+                        .html(d[vars.y2].toFixed(2));
+                    d3.select('#behind-leader')
+                        .html('At the previous sectional <strong>' + d[vars.horse] +
+                            '</strong> was ' +
+                            d[vars.y1] +
+                            's behind the leader, <strong>' +
+                            d[vars.horse] +
+                            '</strong> was ' +
+                            d[vars.y2] +
+                            's behind after the next sectional.');
                     d3.select('#tooltip')
                         .style('display', 'block');
                     // handle colors/opacity
@@ -95,8 +106,7 @@ app
                         .style('opacity', 0.2)
                     d3.selectAll('#pos' + d[vars.yVar])
                         .style('opacity', 1)
-                        .style('stroke', '#d9220f');
-                        // d3.select('#pos' + d.pos + '.runner').style('opacity', 1);
+                        .style('stroke', '#D9220F');
                 };
                 tooltips.hide = function() {
                     // hide tooltip
@@ -105,7 +115,7 @@ app
                     // handle colors/opacity
                     d3.selectAll('.slopes, .runner')
                         .style('opacity', 1)
-                        .style('stroke', '#424242')
+                        .style('stroke', '#0080FF')
                 };
                 // axes and axis labels
                 svg.append('g')
