@@ -1,6 +1,6 @@
 library(RcappeR)
 library(dplyr)
-library(rjson)
+library(jsonlite)
 
 Oaks
 tmp <- Oaks %>%
@@ -29,6 +29,6 @@ tmp <- Oaks %>%
            p11f = rank(c11f, ties.method = "first"),
            p12f = rank(c12f, ties.method = "first"))
 
-y <- plyr::dlply(Oaks, "pos", as.list)
+y <- plyr::dlply(tmp, "pos", as.list)
 y <- unname(y)
 write(x = toJSON(y, auto_unbox = T), file = "Oaks2015.json")
