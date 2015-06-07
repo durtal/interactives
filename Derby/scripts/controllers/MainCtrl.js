@@ -10,6 +10,8 @@ app
             if($scope.sectional > 0) {
                 $('.prevSect').removeClass('disabled');
             }
+            $('.blog').css({'display':'none'});
+            $('#s'+$scope.sectional).css({'display': 'block'});
         };
         $scope.prevSect = function() {
             $scope.sectional-=1;
@@ -19,6 +21,8 @@ app
             if($scope.sectional == 0) {
                 $('.prevSect').addClass('disabled');
             }
+            $('.blog').css({'display':'none'});
+            $('#s'+$scope.sectional).css({'display': 'block'});
         };
         // distance labels
         $scope.dists = ['start', '2f', '5f', '8.5f', '10f', '11f', 'finish'];
@@ -33,19 +37,21 @@ app
         // show all runners in table (or first 3)
         $scope.showAllBool = false;
         $scope.showAll = function() {
-            $scope.showAllBool = $scope.showAllBool === false ? true : false;
+            $scope.showAllBool = !$scope.showAllBool;
             if($scope.showAllBool) {
                 $scope.topThree = _.filter($scope.raceData, function(i) {
                     return i.pos <= $scope.raceData.length;
                 });
+                $('#showAll').html('Show Top Three');
             } else {
                 $scope.topThree = _.filter($scope.raceData, function(i) {
                     return i.pos <= 3;
                 });
+                $('#showAll').html('Show All Runners');
             }
         }
-        var orderBy = $filter('orderBy');
         // function to re-order table
+        var orderBy = $filter('orderBy');
         $scope.order = function(predicate, reverse) {
             $scope.topThree = orderBy($scope.topThree, predicate, reverse);
         };
@@ -68,19 +74,22 @@ app
             pos: 'pos',
             horse: 'horse',
             silk: 'silk',
-            c: ['start', 'c2f', 'c5f', 'c8_5f', 'c10f', 'c11f', 'c12f'],
-            s: ['start', 's2f', 's5f', 's8_5f', 's10f', 's11f', 's12f'],
-            fs: ['fs12f', 'fs10f', 'fs7f', 'fs3_5f', 'fs2f', 'fs1f', 'fs0f'],
-            p: ['start', 'p2f', 'p5f', 'p8_5f', 'p10f', 'p11f', 'p12f'],
-            tooltip: ['tt0', 'tt2f', 'tt5f', 'tt8_5f', 'tt10f', 'tt11f', 'tt12f']
+            c: ['start', 'c2f', 'c5f', 'c8_5f', 'c10f', 'c11f', 'c12f'],                // cumulative times
+            s: ['start', 's2f', 's5f', 's8_5f', 's10f', 's11f', 's12f'],                // sectional times
+            fs: ['fs12f', 'fs10f', 'fs7f', 'fs3_5f', 'fs2f', 'fs1f', 'fs0f'],           // finishing speeds
+            p: ['start', 'p2f', 'p5f', 'p8_5f', 'p10f', 'p11f', 'p12f'],                // sectional position
+            tooltip: ['tt0', 'tt2f', 'tt5f', 'tt8_5f', 'tt10f', 'tt11f', 'tt12f'],      // tooltip text
+            bl: ['null', 'start', 'bl2f', 'bl5f', 'bl8_5f', 'bl10f', 'bl11f', 'bl12f']  // behind leader
         };
-        $scope.config = {
+        $scope.scatterVars = {
             horse: $scope.variables.horse,
             silk: $scope.variables.silk,
             xVar: $scope.variables.c[0],
             yVar: $scope.variables.pos,
             zVar: $scope.variables.s[0],
-            fsVar: $scope.variables.fs[0]
+            fsVar: $scope.variables.fs[0],
+            y1: $scope.variables.bl[0],
+            y2: $scope.variables.bl[1]
         };
         // watch sectional to filter elevation
         $scope.$watch('sectional', function(i) {
@@ -92,10 +101,12 @@ app
             });
 
             // update sectional scatterPlot
-            $scope.config = angular.extend($scope.config, {
+            $scope.scatterVars = angular.extend($scope.scatterVars, {
                 xVar: $scope.variables.c[$scope.sectional],
                 zVar: $scope.variables.s[$scope.sectional],
-                fsVar: $scope.variables.fs[$scope.sectional]
+                fsVar: $scope.variables.fs[$scope.sectional],
+                y1: $scope.variables.bl[$scope.sectional],
+                y2: $scope.variables.bl[$scope.sectional+1]
             });
 
             // progress bar
