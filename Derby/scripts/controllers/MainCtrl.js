@@ -4,7 +4,7 @@ app
         // Controlling data
         $scope.nextSect = function() {
             $scope.sectional+=1;
-            if($scope.sectional == 6) {
+            if($scope.sectional == 5) {
                 $('.nextSect').addClass('disabled');
             }
             if($scope.sectional > 0) {
@@ -25,7 +25,7 @@ app
             $('#s'+$scope.sectional).css({'display': 'block'});
         };
         // distance labels
-        $scope.dists = ['start', '2f', '5f', '8.5f', '10f', '11f', 'finish'];
+        $scope.dists = ['Start', '5f', '8.5f', '10f', '11f', 'Finish'];
         $scope.sectional = 0;
 
         ////////////////////////////////////////////////////////////////////////
@@ -74,12 +74,11 @@ app
             pos: 'pos',
             horse: 'horse',
             silk: 'silk',
-            c: ['start', 'c2f', 'c5f', 'c8_5f', 'c10f', 'c11f', 'c12f'],                // cumulative times
-            s: ['start', 's2f', 's5f', 's8_5f', 's10f', 's11f', 's12f'],                // sectional times
-            fs: ['fs12f', 'fs10f', 'fs7f', 'fs3_5f', 'fs2f', 'fs1f', 'fs0f'],           // finishing speeds
-            p: ['start', 'p2f', 'p5f', 'p8_5f', 'p10f', 'p11f', 'p12f'],                // sectional position
-            tooltip: ['tt0', 'tt2f', 'tt5f', 'tt8_5f', 'tt10f', 'tt11f', 'tt12f'],      // tooltip text
-            bl: ['null', 'start', 'bl2f', 'bl5f', 'bl8_5f', 'bl10f', 'bl11f', 'bl12f']  // behind leader
+            c: ['start', 'c5f', 'c8_5f', 'c10f', 'c11f', 'c12f'],                // cumulative times
+            s: ['start', 's5f', 's8_5f', 's10f', 's11f', 's12f'],                // sectional times
+            fs: ['start', 'fs7f', 'fs3_5f', 'fs2f', 'fs1f', 'start'],           // finishing speeds
+            p: ['start', 'p5f', 'p8_5f', 'p10f', 'p11f', 'p12f'],                // sectional position
+            bl: ['start', 'start', 'bl5f', 'bl8_5f', 'bl10f', 'bl11f', 'bl12f']  // behind leader
         };
         $scope.scatterVars = {
             horse: $scope.variables.horse,
@@ -110,7 +109,7 @@ app
             });
 
             // progress bar
-            var progressBar = ['0%', (2/12)*100+'%', (5/12)*100+'%', (8.5/12)*100+'%', (10/12)*100+'%', (11/12)*100+'%', (12/12)*100+'%'];
+            var progressBar = ['0%', (5/12)*100+'%', (8.5/12)*100+'%', (10/12)*100+'%', (11/12)*100+'%', (12/12)*100+'%'];
             d3.selectAll('.progress-bar')
                 .style('width', progressBar[i]);
         });

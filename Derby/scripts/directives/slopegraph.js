@@ -31,8 +31,8 @@ app
                     yMax = d3.max([d3.max(_.pluck(data, vars.y1)), d3.max(_.pluck(data, vars.y2))]);
 
                 // if yMax is greater than 2seconds ignore runners
-                if(yMax > 2) {
-                    yMax = 2;
+                if(yMax > 2.5) {
+                    yMax = 2.5;
                 }
                 var yScale = d3.scale.linear()
                         .domain([yMin, yMax])
