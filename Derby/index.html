@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="DerbyApp">
     <head>
-        <title>2015 Derby: Interactive Sectionals Analysis</title>
+        <title>2015 Derby: Sectional Analysis w/ Interactive elements</title>
 
         <meta charset="utf-8">
         <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
@@ -13,135 +13,147 @@
             <div class="title">
                 <h1>2015 Derby</h1>
                 <h3>Winner: <img ng-src="{{raceData[0].silk}}" alt=""> {{ raceData[0].horse }}</h3>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="UTVilla" data-size="small" data-hashtags="d3js,Oaks2015,Derby2015">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+                <a href="https://twitter.com/UTVilla" class="twitter-follow-button" data-show-count="false">Follow @UTVilla</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
             </div>
-            <div class="container">
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>The 2015 Derby was won by Golden Horn, the 13/8 John Gosden trained favourite.  Jack Hobbs finished behind Golden Horn for a second time, previously being defeated by the winner in the Dante, while back in third was another horse previously vanquished by Golden Horn, Storm The Stars finished second in a maiden at Nottingham at the tail end of the 2014 season.  This page attempts to explore the race via manually collected sectionals, displaying them in a more traditional manner (a table), but also with a few interactive elements, hopefully allowing the user to explore the data.  Sectionals are available (as JSON) <a href="https://raw.githubusercontent.com/durtal/interactives/master/Derby/data/Derby2015.json" target="_blank">here</a>, and a quick explanation about how I collected sectionals can be found <a href="about.html">here</a>.</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>The table below shows the first 3 in the 2015 Derby, to see all runners click the button to the right.  The table can be reorderd according to the different variables in the table header (with the exception of Horse), clicking on one will reorder the table.  In each of the smaller cells there is data related to a sectional, times (and other data) were recorded at ~5f, ~8.5f, ~10f, ~11f, and the finish.  Depending on your screen size, in the top row is the cumulative time, larger screens will also display the sectional time in the top right; bottom row is the finishing speed %, and possibly the position of the runner at that sectional.</p>
 
-                <div class="row">
-                    <div class="col-sm-12"></div>
-                    <hr>
-                    <div class="col-sm-11">
-                        <p>The table below shows the first 3 in the 2015 Derby, to see all runners click the button to the right.  The table can be reorderd according to the different variables in the table header (with the exception of Horse), simply clicking on one will reorder the table.  In each of the smaller cells there are typically 4 numbers related to a sectional, times (and other data) were recorded at 2f, 5f, 8.5f, 10f, 11f, and the finish.  In the top left corner of a cell is the cumulative time; top right is the time the horse covered the previous sectional; bottom left is the finishing speed; and bottom right is the position of the runner at that sectional.</p>
-                    </div>
-                    <div class="col-sm-1">
-                        <button class="btn btn-info btn-sm" ng-click="showAll()">Show All</button>
-                    </div>
+                    <sub>The final furlong sectionals for Rogue Runner and Moheet are troubling, this due to them being out of shot, so take with a large pinch of salt!</sub>
                 </div>
-                <div class="col-sm-6"></div>
-                <div class="col-sm-1 title">
-                    <h4>2f</h4>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-sm" ng-click="showAll()" id="showAll">Show All Runners</button>
                 </div>
-                <div class="col-sm-1 title">
-                    <h4>5f</h4>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-condensed table-hover">
+                        <thead class="derby-sects">
+                            <tr class="info">
+                                <td class="col-sm-1 hidden-xs"></td>
+                                <td class="col-sm-4 col-xs-5"></td>
+                                <td class="col-sm-2"></td>
+                                <td class="col-sm-1 distHeader">5f</td>
+                                <td class="col-sm-1 distHeader">8.5f</td>
+                                <td class="col-sm-1 distHeader">10f</td>
+                                <td class="col-sm-1 distHeader">11f</td>
+                                <td class="col-sm-1 distHeader">12f</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="col-sm-1 horse hidden-xs" rowspan="2"></td>
+                                <td class="col-sm-4 col-xs-5 horse" rowspan="2">Horse</td>
+                                <td class="col-sm-1 pos" rowspan="2">
+                                    <a href="" ng-click="reverse=!reverse; order('pos', reverse)">Pos</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c5f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s5f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c8_5f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s8_5f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c10f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s10f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c11f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s11f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c12f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s12f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                            </tr>
+                            <tr class="info">
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs7f', reverse)">7f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p5f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs3_5f', reverse)">3.5f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p8_5f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs2f', reverse)">2f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p10f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs1f', reverse)">1f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p11f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects"></td>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="runner in topThree">
+                            <tr class="hello">
+                                <td class="col-sm-1 silks hidden-xs" rowspan="2">
+                                    <img ng-src="{{ runner.silk }}" class="silks">
+                                </td>
+                                <td class="col-sm-4 col-xs-5 horse" rowspan="2">{{ runner.horse }}</td>
+                                <td class="col-sm-2 pos" rowspan="2">{{ runner.pos }}</td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c5f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s5f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c8_5f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s8_5f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c10f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s10f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c11f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s11f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c12f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s12f | number: 2 }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs7f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p5f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs3_5f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p8_5f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs2f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p10f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs1f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p11f }}</span>
+                                </td>
+                                <td class="sects"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-sm-1 title">
-                    <h4>8.5f</h4>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>The following is an interactive experiment, which is probably much better on larger screens, so mobiles and smaller tablets might not be the best platform to view it.  The primary plot shows the 12 Derby runners, at the top is the winner Golden Horn, at the bottom is last placed Success Days, as you click through the sectionals via the buttons below, the cumulative times of runners will be charted.  Also displayed is a slopegraph which shows how far behind (in seconds) the horse is behind the leader at the 'current' sectional vs the previous sectional, effectively showing whether the runner was making gains on the leader.  Hovering over a runners silks will highlight the correct line in slopegraph plot, and also bring up a simple tooltip with data about that runner: namely, the horses cumulative time, the time the horse recorded over the previous sectional, the runners position at the sectional and the horses finishing speed.  At the bottom of the page is an elevation profile of the Derby course, each sectional is highlighted as you click through the sectionals.</p>
                 </div>
-                <div class="col-sm-1 title">
-                    <h4>10f</h4>
-                </div>
-                <div class="col-sm-1 title">
-                    <h4>11f</h4>
-                </div>
-                <div class="col-sm-1 title">
-                    <h4>12f</h4>
-                </div>
-                <table class="table table-condensed table-hover">
-                    <thead class="derby-sects">
-                        <tr class="info">
-                            <td class="col-sm-1 horse hidden-xs" rowspan="2"></td>
-                            <td class="col-sm-4 horse" rowspan="2">Horse</td>
-                            <td class="col-sm-1 pos" rowspan="2">
-                                <a href="" ng-click="reverse=!reverse; order('pos', reverse)">Pos</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c2f', reverse)">2f</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c5f', reverse)">5f</a>
-                                <a href="" ng-click="reverse=!reverse; order('s5f', reverse)" class="isects">(2f-5f)</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c8_5f', reverse)">8.5f</a>
-                                <a href="" ng-click="reverse=!reverse; order('s8_5f', reverse)" class="isects">(5f-8.5f)</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c10f', reverse)">10f</a>
-                                <a href="" ng-click="reverse=!reverse; order('s10f', reverse)" class="isects">(8.5f-10f)</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c11f', reverse)">c11f</a>
-                                <a href="" ng-click="reverse=!reverse; order('s11f', reverse)" class="isects">(10f-11f)</a>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <a href="" ng-click="reverse=!reverse; order('c12f', reverse)">c12f</a>
-                                <a href="" ng-click="reverse=!reverse; order('s12f', reverse)" class="isects">(11f-12f)</a>
-                            </td>
-                        </tr>
-                        <tr class="info">
-                            <td class="sects">
-                                <a href="" ng-click="reverse=!reverse; order('fs10f', reverse)">10f FS</a>
-                            </td>
-                            <td class="sects">
-                                <a href="" ng-click="reverse=!reverse; order('fs7f', reverse)">7f FS</a>
-                            </td>
-                            <td class="sects">
-                                <a href="" ng-click="reverse=!reverse; order('fs3_5f', reverse)">3.5f FS</a>
-                            </td>
-                            <td class="sects">
-                                <a href="" ng-click="reverse=!reverse; order('fs2f', reverse)">2f FS</a>
-                            </td>
-                            <td class="sects">
-                                <a href="" ng-click="reverse=!reverse; order('fs1f', reverse)">1f FS</a>
-                            </td>
-                            <td class="sects"></td>
-                        </tr>
-                    </thead>
-                    <tbody ng-repeat="runner in topThree">
-                        <tr class="hello">
-                            <td class="col-sm-1 silks hidden-xs" rowspan="2">
-                                <img ng-src="{{ runner.silk }}" class="silks">
-                            </td>
-                            <td class="col-sm-4 horse" rowspan="2">{{ runner.horse }}</td>
-                            <td class="col-sm-1 pos" rowspan="2">{{ runner.pos }}</td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c2f | number: 2 }}</span>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c5f | number: 2 }}</span>
-                                <span class="isects">{{ runner.s5f | number: 2 }}</span>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c8_5f | number: 2 }}</span>
-                                <span class="isects">{{ runner.s8_5f | number: 2 }}</span>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c10f | number: 2 }}</span>
-                                <span class="isects">{{ runner.s10f | number: 2 }}</span>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c11f | number: 2 }}</span>
-                                <span class="isects">{{ runner.s11f | number: 2 }}</span>
-                            </td>
-                            <td class="col-sm-1 sects">
-                                <span class="csects">{{ runner.c12f | number: 2 }}</span>
-                                <span class="isects">{{ runner.s12f | number: 2 }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="sects">{{ runner.fs10f * 100 | number: 1 }}%</td>
-                            <td class="sects">{{ runner.fs7f * 100 | number: 1 }}%</td>
-                            <td class="sects">{{ runner.fs3_5f * 100 | number: 1 }}%</td>
-                            <td class="sects">{{ runner.fs2f * 100 | number: 1 }}%</td>
-                            <td class="sects">{{ runner.fs1f * 100 | number: 1 }}%</td>
-                            <td class="sects"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <p>Epsom presented the opportunity to record more sectionals than at Newbury, furlong markers were more easily identifiable (especially slowing the video down and using the time-stamp in MovieMaker), but also paths provided solid landmarks, so sectionals came after ~2f, ~5f(path), ~8.5f(path), ~10f, and ~11f.  The camera work, wider shots etc, also made the beaten lengths easier to establish, although the home straight is obviously more difficult with runners running head on (and some out of shot completely, luckily these weren’t any of the main contenders).</p>
-                    <p>Below are the Google Earth screenshots, showing where the sectionals were roughly taken, they should be in order.  The large red arrow on the main GE screen shows where the sectionals are on the 1m4f path, and the elevation profile below shows the terrain over which the horses will have roughly travelled, and are yet to travel.  The rising ground is clear to see, having risen from ~113m up to ~151m, which marks the runners reaching the “top” of the 1m4f course and our second sectional (using a path measured as ~1.01km on GE, or ~5f).  From that point, it levels out a little  From here the course gradually falls away to the finish.  (clicking any of the images should open a slideshow, hopefully images are labelled and in order.)</p>
-                </div>
-                <div class="row">
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
                         <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
                     </button>
@@ -149,38 +161,51 @@
                         next Sectional <span class="glyphicon glyphicon-hand-right"></span>
                     </button>
                 </div>
-                <div class="row">
-                    <h2>{{ dists[sectional]}}</h2>
-                </div>
-                <div class="row">
-                    <div class="col-sm-9">
-                        <scatter-plot data="raceData" x="{{xSect}}" y="pos" z="{{iSect}}" vars="config"></scatter-plot>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="blog" id="s0">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Golden Horn, the unbeaten 13/8 Favourite, was drawn in stall eight, with Storm The Stars drawn in seven, and second favourite Jack Hobbs drawn in stall ten.  This race, and the front 3 especially, benefitted from Hans Holbein and Elm Park, drawn in stalls two and three respectively, setting a very strong early gallop, allowing for a clean race with the cream rising to the top.</p>
                     </div>
-                    <div class="col-sm-3">
-                        <div id="tooltip">
-                            <!-- tooltip -->
-                            <h3 class="title" id="horse"></h3>
-                            <table class="table table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <td>Cumulative Time</td>
-                                        <td id="xVar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sectional Time</td>
-                                        <td id="zVar"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Finishing Speed</td>
-                                        <td id="fsVar"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <!-- tooltip -->
-                        </div>
+                    <div class="blog" id="s1">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Elm Park was very keen in the early stages and contested the lead over the opening 2 and 3 furlongs, before Hans Holbein, settling much better than Elm Park, but asked to set a strong pace.  The opening 5furlongs was covered in <strong>{{ raceData[6].c5f | number: 2 }}</strong> and the field was really strung out.  The last placed horse at 5furlongs was Kilimanjaro, who I estimated was {{ raceData[5].bl5f | number: 2 }}seconds behind the clear leader.  If a horse is to record a fast time, it typically needs to be truly run race and Hans Holbein (with some assistance from Elm Park) ensured this was the case.  The photo from the race taken at this sectional shows how strung out the runners were, see it <a href="https://raw.githubusercontent.com/durtal/interactives/master/Derby/about/2015Derby-5f.jpg" target="_blank">here</a>.  In the Oaks, a steadily run race, the leader Star Of Seville ran the opening 5furlongs in 72.36seconds.</p>
+
+                        <p><strong>Golden Horn</strong> ran the opening 5furlongs in {{ raceData[0].c5f | number: 2 }} and was {{ raceData[0].bl5f | number: 2 }}seconds behind the leader.  Ahead of the winner was <strong>Jack Hobbs</strong>, ahead by {{ raceData[0].bl5f - raceData[1].bl5f | number: 2 }}seconds, and further ahead was <strong>Storm The Stars</strong> who sat in a distant third, running the 5furlongs in {{ raceData[2].c5f | number: 2 }}</p>
+                    </div>
+                    <div class="blog" id="s2">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Crossing the path at roughly 8.5furlongs, Hans Holbein still held the lead, but the field was starting to close up, albeit marginally.  <strong>Golden Horn</strong> recorded the fastest sectional from 5furlongs to 8furlongs, a time of {{ raceData[0].s8_5f | number: 2 }}, but most of the field recorded similar times, within two 10ths of a second.  The front three after 5furlongs, <strong>Hans Holbein</strong>, Elm Park and <strong>Storm The Stars</strong> recorded the slowest sectionals.  Elm Park's earlier keenness was beginning to take it's toll.</p>
+
+                        <p><strong>Golden Horn</strong> was <strong>{{ raceData[0].c8_5f - raceData[1].c8_5f | number: 2 }}</strong>seconds behind Jack Hobbs and <strong>{{ raceData[0].c8_5f - raceData[2].c8_5f | number: 2 }}</strong>seconds behind Storm The Stars who had dropped back to fourth as Epicuris moved ahead to close on the leaders.</p>
+                    </div>
+                    <div class="blog" id="s3">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>From the path at roughly 8.5furlongs to the 10furlong pole, is when the winner started to make his move.  He ran the downhill section (slightly shorter than 1.5furlongs) in a time of <strong>{{ raceData[0].s10f | number: 2 }}</strong>, and closed on those in front.  This sectional saw Golden Horn close on all runners, but most importantly on Jack Hobbs, who ran the same section in <strong>{{ raceData[1].s10f | number: 2 }}</strong>.  Meaning the gap between the two rivals, who had fought out the finish in the Dante, had dropped from {{ raceData[0].bl8_5f - raceData[1].bl8_5f | number: 2}}seconds to just <strong>{{ raceData[0].bl10f - raceData[1].bl10f | number: 2}}</strong>seconds.</p>
+
+                        <p>Whilst the slopegraph shows the majority of runners being closer to the leader at the end of 10furlongs, this was as much to do with the leader slowing down, Hans Holbein ran the same section in a time that was <strong>{{ raceData[6].s10f - raceData[0].s10f | number: 2 }}</strong>seconds slower than Golden Horn.</p>
+                    </div>
+                    <div class="blog" id="s4">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>After 11furlongs, <strong>Golden Horn</strong> was in the lead, with <strong>Jack Hobbs</strong> just {{ raceData[1].bl11f | number: 2 }}seconds behind.  Jack Hobbs, and the rest, struggled to live with Golden Horn, who raced into the lead recording a {{ raceData[0].s11f | number: 2 }}second furlong.  Unlike the Oaks, where the modest pace caused trouble in running and a congested field, the strong pace set by Hans Holbein helped Golden Horn to shine and stamp his authority on the 2015 Derby.</p>
+
+                        <p>Back in third, trailing by {{ raceData[2].bl11f | number: 2 }}seconds was Storm The Stars, who should emerge with plenty of credit given he was 'closest' (albeit a distant closest) to the strong early pace.  He in turn was some way clear of the fourth, Giovanni Canaletto.</p>
+                    </div>
+                    <div class="blog" id="s5">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Over the final furlong, all runners were slowing down, but Golden Horn still managed to put in a final furlong that was <strong>{{ raceData[1].s12f - raceData[0].s12f | number: 2 }}</strong>seconds faster than Jack Hobbs.  By the end of the race, the Derby Favourite had won comfortably, in a quick time, posting a very impressive performance, beating a pair of rivals he'd met before.</p>
                     </div>
                 </div>
-                <div class="row">
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
                     <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
                         <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
                     </button>
@@ -188,17 +213,61 @@
                         next Sectional <span class="glyphicon glyphicon-hand-right"></span>
                     </button>
                 </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <h2 class="title"></h2>
+                    <scatter-plot data="raceData" x="{{xSect}}" y="pos" z="{{iSect}}" vars="scatterVars"></scatter-plot>
+                </div>
+                <div class="col-sm-3">
+                    <slopegraph data="raceData" vars="scatterVars"></slopegraph>
+                    <div id="tooltip">
+                        <h4 class="title" id="horse"></h4>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td class="sects">cum. Time</td>
+                                    <td class="sects" id="xVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">sect. Time</td>
+                                    <td class="sects" id="zVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">Fin Spd</td>
+                                    <td class="sects" id="fsVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">Bhd Ldr</td>
+                                    <td class="sects" id="bhd-ldr"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <sub id="behind-leader"></sub>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
 
-                        <p>The Derby not only pits the best 3yo colts against one another, it also tests the tractability of individuals.  The Epsom Derby course is like no other, it twists and turns and rises and falls, stretching and punishing horses who race inefficiently.</p>
-                        <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 400m (~2furlongs), the horses climb almost 20metres, while the highest point comes after roughly 1000m (~5furlongs) and is 35metres above the starting gates.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post 25m below the highest point.</p>
-                    </div>
-                    <div class="col-md-7">
-                        <h3 class="title">{{ dists[sectional-1]}}-{{ dists[sectional] }}</h3>
-                        <elevation-plot data="elevation" vars="elevationVars" sectionalcompleted="elevationCompleted"></elevation-plot>
-                    </div>
+                    <p>The Derby not only pits the best 3yo colts against one another, it also tests the tractability of individuals.  The Epsom course is like no other, it twists and turns and rises and falls, stretching and punishing horses who race inefficiently.</p>
+                    <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 1000m (~2furlongs), the horses climb almost 35metres, reaching the highest point.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post 25m below the highest point.</p>
+                </div>
+                <div class="col-md-7">
+                    <h3 class="title">{{ dists[sectional-1]}}-{{ dists[sectional] }}</h3>
+                    <elevation-plot data="elevation" vars="elevationVars" sectionalcompleted="elevationCompleted"></elevation-plot>
                 </div>
             </div>
             <hr>
@@ -228,9 +297,12 @@
         <!-- controllers -->
         <script src="scripts/controllers/MainCtrl.js"></script>
         <!-- directives -->
-        <script src="scripts/directives/elevationPlot.js"></script>
-        <script src="scripts/directives/scatterPlot.js"></script>
+        <script src="../Derby/scripts/directives/elevationPlot.js"></script>
+        <script src="../Derby/scripts/directives/scatterPlot.js"></script>
+        <script src="../Derby/scripts/directives/slopegraph.js"></script>
         <!-- services -->
-        <script src="scripts/services/elevationData.js"></script>
+        <script src="../Derby/scripts/services/elevationData.js"></script>
+        <script src="../Derby/scripts/services/DerbyData.js"></script>
+        <script src="../Derby/scripts/services/OaksData.js"></script>
     </body>
 </html>
