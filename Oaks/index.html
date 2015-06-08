@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html ng-app="OaksApp">
+    <head>
+        <title>2015 Oaks: Sectional Analysis w/ Interactive elements</title>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../Derby/styles/styles.css">
+    </head>
+    <body ng-controller="MainCtrl"  ng-cloak>
+        <div class="progress-bar"></div>
+        <div class="container">
+            <div class="title">
+                <h1>2015 Oaks</h1>
+                <h3>Winner: <img ng-src="{{raceData[0].silk}}" alt=""> {{ raceData[0].horse }}</h3>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="UTVilla" data-size="small" data-hashtags="d3js,Oaks2015,Derby2015">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+                <a href="https://twitter.com/UTVilla" class="twitter-follow-button" data-show-count="false">Follow @UTVilla</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>The 2015 Oaks was won by Qualify, a 50/1 shot trained by Aidan O'Brien, narrowly beating Legatissimo, the Oaks favourite owned by connections who would typically be seen in the winners enclosure whenever O'Brien is.  This page attempts to explore the race via manually collected sectionals, displaying them in a more traditional manner (a table), but also with a few interactive elements, hopefully allowing the user to explore the data.  Sectionals are available (as JSON) <a href="https://raw.githubusercontent.com/durtal/interactives/master/Derby/data/Oaks2015.json" target="_blank">here</a>, and a quick explanation about how I collected sectionals can be found <a href="about.html">here</a>.</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>The table below shows the first 3 in the 2015 Oaks, to see all runners click the button to the right.  The table can be reorderd according to the different variables in the table header (with the exception of Horse), clicking on one will reorder the table.  In each of the smaller cells there is data related to a sectional, times (and other data) were recorded at ~5f, ~8.5f, ~10f, ~11f, and the finish.  Depending on your screen size, in the top row is the cumulative time, larger screens will also display the sectional time in the top right; bottom row is the finishing speed %, and possibly the position of the runner at that sectional.</p>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info btn-sm" ng-click="showAll()" id="showAll">Show All Runners</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-condensed table-hover">
+                        <thead class="derby-sects">
+                            <tr class="info">
+                                <td class="col-sm-1 hidden-xs"></td>
+                                <td class="col-sm-4 col-xs-5"></td>
+                                <td class="col-sm-2"></td>
+                                <td class="col-sm-1 distHeader">5f</td>
+                                <td class="col-sm-1 distHeader">8.5f</td>
+                                <td class="col-sm-1 distHeader">10f</td>
+                                <td class="col-sm-1 distHeader">11f</td>
+                                <td class="col-sm-1 distHeader">12f</td>
+                            </tr>
+                            <tr class="info">
+                                <td class="col-sm-1 horse hidden-xs" rowspan="2"></td>
+                                <td class="col-sm-4 col-xs-5 horse" rowspan="2">Horse</td>
+                                <td class="col-sm-1 pos" rowspan="2">
+                                    <a href="" ng-click="reverse=!reverse; order('pos', reverse)">Pos</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c5f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s5f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c8_5f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s8_5f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c10f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s10f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c11f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s11f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <a href="" ng-click="reverse=!reverse; order('c12f', reverse)">Time</a>
+                                    <a href="" ng-click="reverse=!reverse; order('s12f', reverse)" class="isects hidden-sm hidden-xs">Sect</a>
+                                </td>
+                            </tr>
+                            <tr class="info">
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs7f', reverse)">7f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p5f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs3_5f', reverse)">3.5f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p8_5f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs2f', reverse)">2f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p10f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects">
+                                    <a href="" ng-click="reverse=!reverse; order('fs1f', reverse)">1f FS</a>
+                                    <a href="" ng-click="reverse=!reverse; order('p11f', reverse)" class="isects hidden-sm hidden-xs">Pos</a>
+                                </td>
+                                <td class="sects"></td>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="runner in topThree">
+                            <tr class="hello">
+                                <td class="col-sm-1 silks hidden-xs" rowspan="2">
+                                    <img ng-src="{{ runner.silk }}" class="silks">
+                                </td>
+                                <td class="col-sm-4 col-xs-5 horse" rowspan="2">{{ runner.horse }}</td>
+                                <td class="col-sm-2 pos" rowspan="2">{{ runner.pos }}</td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c5f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s5f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c8_5f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s8_5f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c10f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s10f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c11f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s11f | number: 2 }}</span>
+                                </td>
+                                <td class="col-sm-1 sects">
+                                    <span class="csects">{{ runner.c12f | number: 2 }}</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.s12f | number: 2 }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs7f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p5f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs3_5f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p8_5f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs2f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p10f }}</span>
+                                </td>
+                                <td class="sects">
+                                    <span class="finspds">{{ runner.fs1f | number: 1 }}%</span>
+                                    <span class="isects hidden-sm hidden-xs">{{ runner.p11f }}</span>
+                                </td>
+                                <td class="sects"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <p>The following is an interactive experiment, which is probably much better on larger screens, so mobiles and smaller tablets might not be the best platform to view it.  The primary plot shows the 11 Oaks runners, at the top is the winner Qualify, at the bottom is last placed Bellajeu, as you click through the sectionals via the buttons below, the cumulative times of runners will be charted.  Also displayed is a slopegraph which shows how far behind (in seconds) the horse is behind the leader at the 'current' sectional vs the previous sectional, effectively showing whether the runner was making gains on the leader.  Hovering over a runners silks will highlight the correct line in slopegraph plot, and also bring up a simple tooltip with data about that runner: namely, the horses cumulative time, the time the horse recorded over the previous sectional, the runners position at the sectional and the horses finishing speed.  At the bottom of the page is an elevation profile of the Derby course, each sectional is highlighted as you click through the sectionals.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="blog" id="s0">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Legatissimo, fresh off her strong 1000 Guineas win, where she won going away, was sent off as the 5/2 Oaks favourite.  Starting in stall one, she found here eventual conqueror in stall two, not a race for the trends boys given the poor record of those drawn low.  Star Of Seville, drawn in six, would lead the race for a significant portion.</p>
+                    </div>
+                    <div class="blog" id="s1">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>Star Of Seville was the leader over the first 5furlongs, recording a modest time of {{ raceData[8].c5f | number: 2 }}, the first 5furlongs of the course rises 35metres above the starting gates, as highlighted in the elevation plot below.  The runners are near the highest point of the course after 5f.  The first three home, <strong>Qualify</strong>, <strong>Legatissimo</strong> and Lady Of Dubai, were all sat towards the rear of the field, racing in {{ raceData[0].p5f }}, {{ raceData[1].p5f }} and {{ raceData[2].p5f }} respectively, trailing the leaders by <strong>>{{ raceData[2].bl5f | number: 2 }}</strong>.</p>
+
+                        <p>Held up behind these three was Crystal Zvezda who pulled hard early, something you don't want to do given the sharp climb over the first 5furlongs.  <strong>Diamondsandrubies</strong> was sat {{ raceData[3].bl5f | number: 2}}seconds behind Star Of Seville, travelling well and getting plenty of cover.</p>
+                    </div>
+                    <div class="blog" id="s2">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>After 8.5furlongs not much had changed, runners maintained their positions and were similar distances behind the leader, as highlighted in the slopegraph.  The last two, Crystal Zvezda (keen early) and Bellajeu were falling away.</p>
+
+                        <p>Runners were now running downhill, and what the plots can't show you is the position on the track the runners were starting to take up.  The eventual front three, having been held up, were going to have to make their efforts wider, while, <strong>Diamondsandrubies</strong>, who had been sat behind the leaders, would have to find some gaps.</p>
+                    </div>
+                    <div class="blog" id="s3">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+                        <p>After 10furlongs, Star Of Seville was still leading from Together Forever, who sat {{ raceData[6].bl10f | number: 2 }}seconds behind.  Runners in behind were all starting to close up, with only 2 runners, Crystal Zvezda and Bellajeu, beaten and more than {{ raceData[9].bl10f | number: 2 }}seconds behind, both of whom were held up throughout and never looked dangerous.</p>
+
+                        <p>The steady pace meant that many were set to fight out the finish, the eventual 4th <strong>Diamondsandrubies</strong> had made a strong move over the previous ~1.5furlongs, from the path at ~8.5furlongs to the 10furlong pole, the filly was {{ raceData[4].bl8_5f | number: 2 }}seconds behind at the path, and was just {{ raceData[4].bl10f | number: 2 }}seconds behind with 2furlongs to go.  <strong>Qualify</strong> and <strong>Legatissimo</strong> both made similar moves to Diamondsandrubies, but both were further back, sat in {{ raceData[0].p8_5f }} and {{ raceData[1].p8_5f }} respectively when crossing the path.  It was Legatissimo who made a much more aggressive forward move, recording a fastest sectional of <strong>{{ raceData[1].s10f | number: 2 }}</strong>seconds, while Qualify ran the same sectional in {{ raceData[0].s10f | number: 2 }} and Diamondsandrubies in {{ raceData[4].s10f | number: 2 }}.</p>
+                        <p>The race was beginning to hot up...</p>
+                    </div>
+                    <div class="blog" id="s4">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>The field was very compact after 10f, and this caused some trouble in running for a number of runners.  Some small bumping started on the outside between Legatissimo and Jack Naylor, but given the camber in the downhill straight, the bumps became more and more significant the closer to the rail a horse was.  The primary sufferers were Star Of Seville, Together Forever and Diamondsandrubies, but whereas the former two looked likely to be swallowed up by the horses out wide, Diamondsandrubies was beginning to make a smart looking move between Star Of Seville and Together Forever.  After the trouble there was no hope.</p>
+
+                        <p><strong>Legatissimo</strong> continued her forward move, with only <strong>Qualify</strong> recorded a faster sectional from 10 to 11furlongs ({{ raceData[0].s11f | number: 2 }}).  However it was Legatissimo who was leading entering the final furlong, albeit narrowly from Lady Of Dubai by {{ raceData[2].bl11f | number: 2 }}seconds, with Qualify a further {{ raceData[0].bl11f - raceData[2].bl11f | number: 2 }}seconds down.  Having suffered significant interference <strong>Diamondsandrubies</strong> had gone from {{ raceData[3].bl10f | number: 2 }}seconds behind the leader (Star Of Seville) after 10furlongs to {{ raceData[3].bl11f | number: 2 }}seconds down on Legatissimo.</p>
+                    </div>
+                    <div class="blog" id="s5">
+                        <h2 class="title">{{ dists[sectional] }}</h2>
+
+                        <p>The final furlong saw the front two pull away from the field, the favourite <strong>Legatissimo</strong> held a sizeable lead, but <strong>Qualify</strong> put in a blistering final furlong of <strong>{{ raceData[0].s12f | number: 2 }}</strong>seconds, against Legatissimo's final furlong of {{ raceData[1].s12f | number: 2 }}.  Qualify getting up in the final strides, both clear of the third, Lady Of Dubai, while Diamondsandrubies was well beaten, but by no means disgraced given the interference did well to finish fourth.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-9">
+                    <h2 class="title"></h2>
+                    <scatter-plot data="raceData" x="{{xSect}}" y="pos" z="{{iSect}}" vars="scatterVars"></scatter-plot>
+                </div>
+                <div class="col-sm-3">
+                    <slopegraph data="raceData" vars="scatterVars"></slopegraph>
+                    <div id="tooltip">
+                        <h4 class="title" id="horse"></h4>
+                        <table class="table table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td class="sects">cum. Time</td>
+                                    <td class="sects" id="xVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">sect. Time</td>
+                                    <td class="sects" id="zVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">Fin Spd</td>
+                                    <td class="sects" id="fsVar"></td>
+                                </tr>
+                                <tr>
+                                    <td class="sects">Bhd Ldr</td>
+                                    <td class="sects" id="bhd-ldr"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <sub id="behind-leader"></sub>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
+
+                    <p>The Oaks not only pits the best 3yo fillies against one another, it also tests the tractability of individuals.  The Epsom course is like no other, it twists and turns and rises and falls, stretching and punishing horses who race inefficiently.</p>
+                    <p> The elevation profile, plotted here, shows the extent of the undulations.  Distance and elevations are shown are in metres; over the first 1000m (~2furlongs), the horses climb almost 35metres, reaching the highest point.  From the highest point there is a short flat(ish) section for around 300m, before the ground falls away from runners, with the finishing post 25m below the highest point.</p>
+                </div>
+                <div class="col-md-7">
+                    <h3 class="title">{{ dists[sectional-1]}}-{{ dists[sectional] }}</h3>
+                    <elevation-plot data="elevation" vars="elevationVars" sectionalcompleted="elevationCompleted"></elevation-plot>
+                </div>
+            </div>
+            <hr>
+            <h4>Any comments, feedback, suggestions would be welcomed.</h4>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES * * */
+                var disqus_shortname = 'derby2015';
+
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        </div>
+
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootswatch-dist/js/bootstrap.js"></script>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+
+        <script src="scripts/app.js"></script>
+        <!-- controllers -->
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <!-- directives -->
+        <script src="../Derby/scripts/directives/elevationPlot.js"></script>
+        <script src="../Derby/scripts/directives/scatterPlot.js"></script>
+        <script src="../Derby/scripts/directives/slopegraph.js"></script>
+        <!-- services -->
+        <script src="../Derby/scripts/services/elevationData.js"></script>
+        <script src="../Derby/scripts/services/DerbyData.js"></script>
+        <script src="../Derby/scripts/services/OaksData.js"></script>
+    </body>
+</html>

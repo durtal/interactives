@@ -1,0 +1,123 @@
+body {
+    color: #424242;
+    text-align: justify;
+}
+
+.title {
+    text-align: center;
+}
+h1 {
+    font-size: 50px;
+}
+p {
+    font-size: 13px;
+}
+/* button to show all runners */
+#showAll {
+    float: center;
+}
+/* table styles */
+.derby-sects {
+    border: 1px solid #424242;
+    border-bottom: 2px solid #424242;
+}
+table>thead>tr>td {
+    border-top: 1px solid #424242;
+    font-weight: bold;
+    color: #000000;
+}
+table>tbody>tr>td.horse,
+table>thead>tr>td.horse {
+    vertical-align: middle;
+    font-size: 18px;
+}
+table>tbody>tr>td.sects,
+table>thead>tr>td.sects {
+    font-size: 11px;
+    font-weight: normal;
+    border-left: 2px solid #424242;
+}
+a,
+a:hover {
+    color: #D9220F;
+    text-decoration: none;
+}
+a:focus {
+    font-weight: bold;
+    text-decoration: underline;
+    color: #D9220F;
+}
+table>tbody>tr>td.pos,
+table>thead>tr>td.pos {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+}
+table>tbody>tr>td.silks {
+    text-align: right;
+    vertical-align: middle
+}
+.csects {
+    float: left;
+    color: #424242;
+    font-weight: bold;
+}
+.finspds {
+    float: left;
+    color: #424242;
+}
+
+thead>tr>td>a.isects {
+    float: right;
+}
+tbody>tr>td>span.isects {
+    float: right;
+    color: #808080;
+}
+thead>tr>td.distHeader {
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    border-left: 2px solid #424242;
+}
+
+/* progress bar to be pinned to the top */
+.progress-bar {
+    position: fixed;
+    float: left;
+    background-color: #D9220F;
+    height: 10px;
+    width: '0%';
+}
+
+/* styles for plots */
+.axis {
+    stroke: #424242;
+    fill: #424242;
+}
+.axis text, .axis {
+    font-size: 12px;
+    fill: #424242;
+    stroke: none;
+}
+.slopegraph-axis {
+    font-size: 10px;
+}
+
+/* remove sectional scatterplot axes at the start of a race */
+.start {
+    opacity: 0;
+}
+
+/* tooltips */
+#tooltip {
+    display: none;
+}
+
+.blog {
+    display: none;
+}
+
+#s0 {
+    display: block;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html ng-app="OaksApp">
+    <head>
+        <title>2015 Oaks: About</title>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../Derby/styles/styles.css">
+    </head>
+    <body ng-controller="MainCtrl">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h1 class="title">2015 Oaks</h1>
+                    <h3 class="title">About</h3>
+                    <p>This page quickly walks through how sectionals were calculated that are visualised <a href="http://durtal.github.io/interactives/Oaks/">here</a>.</p>
+                    <p>First I downloaded a version of the race from youtube and loaded it into <a href="http://www.kinovea.org/">Kinovea</a>, which is a free piece of video editing software for sports.  A stopwatch was added to the screen, and was started as the gates opened for the Oaks.  I used my past experience of calculating sectionals for the Derby and Oaks in 2013, and used paths which are consistent year on year.  Two paths at roughly 5f and 8.5f were used, and then furlong poles at 10f and 11f.</p>
+                    <p>The four screenshots below show the paths used, the screenshots can be found <a href="https://github.com/durtal/interactives/tree/master/Oaks/about">here</a>.  Each screenshot is used to estimate the lengths between runners.  Sometimes this is relatively easy, the second image, taken after roughly 8.5furlongs sees the field side on, allowing easy calculations, while the two screenshots for 10furlongs and 11furlongs are much tougher as runners are head on.  A simple 6 lengths per second scale was used.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <h4 class="title">5f</h4>
+                    <img src="about/2015Oaks-5f.jpg" alt="" class="img-responsive">
+                </div>
+                <div class="col-xs-3">
+                    <h4 class="title">8.5f</h4>
+                    <img src="about/2015Oaks-8-5f.jpg" alt="" class="img-responsive">
+                </div>
+                <div class="col-xs-3">
+                    <h4 class="title">10f</h4>
+                    <img src="about/2015Oaks-10f.jpg" alt="" class="img-responsive">
+                </div>
+                <div class="col-xs-3">
+                    <h4 class="title">11f</h4>
+                    <img src="about/2015Oaks-11f.jpg" alt="" class="img-responsive">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>The table below shows the cumulative distance (in lengths) that I estimated runners were behind the leader.</p>
+
+                    <p>These beaten lengths were then used, with the leaders time (seen in each screenshot), to calculate the different variables that are found in the actual visualisation.  To calculate them I used my <a href="http://cran.r-project.org/">R</a> package, called <a href="https://github.com/durtal/RcappeR">RcappeR</a>.  The script <a href="https://github.com/durtal/interactives/blob/master/Derby/data/prep_data.R#L6-L31">here</a> calculates cumulative times, sectional times, finishing speeds, seconds behind leader, and positions at each sectional.  If anyone spots any discrepencies please highlight them.</p>
+                </div>
+                <div class="col-sm-6">
+                    <table class="table table-condensed">
+                        <thead class="derby-sects">
+                            <tr>
+                                <td>Pos</td>
+                                <td>Horse</td>
+                                <td>5f</td>
+                                <td>8.5f</td>
+                                <td>10f</td>
+                                <td>11f</td>
+                                <td>12f</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="runner in raceData">
+                                <td>{{ runner.pos }}</td>
+                                <td class="sects">{{ runner.horse }}</td>
+                                <td class="sects">{{ runner.len5f }}</td>
+                                <td class="sects">{{ runner.len8_5f }}</td>
+                                <td class="sects">{{ runner.len10f }}</td>
+                                <td class="sects">{{ runner.len11f }}</td>
+                                <td class="sects">{{ runner.len12f }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootswatch-dist/js/bootstrap.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="scripts/app.js"></script>
+        <!-- controllers -->
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <script src="../Derby/scripts/services/elevationData.js"></script>
+        <script src="../Derby/scripts/services/DerbyData.js"></script>
+        <script src="../Derby/scripts/services/OaksData.js"></script>
+    </body>
+</html>
