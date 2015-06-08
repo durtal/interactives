@@ -15,7 +15,7 @@
                     <h3 class="title">About</h3>
                     <p>This page quickly walks through how sectionals were calculated that are visualised <a href="http://durtal.github.io/interactives/Oaks/">here</a>.</p>
                     <p>First I downloaded a version of the race from youtube and loaded it into <a href="http://www.kinovea.org/">Kinovea</a>, which is a free piece of video editing software for sports.  A stopwatch was added to the screen, and was started as the gates opened for the Oaks.  I used my past experience of calculating sectionals for the Derby and Oaks in 2013, and used paths which are consistent year on year.  Two paths at roughly 5f and 8.5f were used, and then furlong poles at 10f and 11f.</p>
-                    <p>The four screenshots below show the paths used, the screenshots can be found <a href="https://github.com/durtal/interactives/tree/master/Oaks/about">here</a>.  Each screenshot is used to estimate the lengths between runners.  Sometimes this is relatively easy, the second image, taken after roughly 8.5furlongs sees the field side on, allowing easy calculations, while the two screenshots for 10furlongs and 11furlongs are much tougher as runners are head on.</p>
+                    <p>The four screenshots below show the paths used, the screenshots can be found <a href="https://github.com/durtal/interactives/tree/master/Oaks/about">here</a>.  Each screenshot is used to estimate the lengths between runners.  Sometimes this is relatively easy, the second image, taken after roughly 8.5furlongs sees the field side on, allowing easy calculations, while the two screenshots for 10furlongs and 11furlongs are much tougher as runners are head on.  A simple 6 lengths per second scale was used.</p>
                 </div>
             </div>
             <div class="row">
@@ -41,7 +41,7 @@
                 <div class="col-sm-6">
                     <p>The table below shows the cumulative distance (in lengths) that I estimated runners were behind the leader.</p>
 
-                    <p>These beaten lengths were then used, with the leaders time (seen in each screenshot), to calculate the different variables that are found in the actual visualisation.  To calculate them I used my <a href="http://cran.r-project.org/">R</a> package, called <a href="https://github.com/durtal/RcappeR">RcappeR</a>.  The script <a href="https://github.com/durtal/interactives/blob/master/Derby/data/prep_data.R#L6-L30">here</a> calculates cumulative times, sectional times, finishing speeds, seconds behind leader, and positions at each sectional.  If anyone spots any discrepencies please highlight them.</p>
+                    <p>These beaten lengths were then used, with the leaders time (seen in each screenshot), to calculate the different variables that are found in the actual visualisation.  To calculate them I used my <a href="http://cran.r-project.org/">R</a> package, called <a href="https://github.com/durtal/RcappeR">RcappeR</a>.  The script <a href="https://github.com/durtal/interactives/blob/master/Derby/data/prep_data.R#L6-L31">here</a> calculates cumulative times, sectional times, finishing speeds, seconds behind leader, and positions at each sectional.  If anyone spots any discrepencies please highlight them.</p>
                 </div>
                 <div class="col-sm-6">
                     <table class="table table-condensed">

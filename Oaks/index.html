@@ -203,6 +203,16 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-12">
+                    <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
+                        <span class="glyphicon glyphicon-hand-left"></span> prev Sectional
+                    </button>
+                    <button class="btn btn-info btn-xs nextSect" ng-click="nextSect()">
+                        next Sectional <span class="glyphicon glyphicon-hand-right"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-9">
                     <h2 class="title"></h2>
                     <scatter-plot data="raceData" x="{{xSect}}" y="pos" z="{{iSect}}" vars="scatterVars"></scatter-plot>
@@ -235,6 +245,7 @@
                     </div>
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-sm-12">
                     <button class="btn btn-info btn-xs disabled prevSect" ng-click="prevSect()">
@@ -245,7 +256,6 @@
                     </button>
                 </div>
             </div>
-            <hr>
             <div class="row">
                 <div class="col-md-5">
                     <h3>Elevation Profile ({{ dists[sectional-1] }}-{{ dists[sectional] }})</h3>
