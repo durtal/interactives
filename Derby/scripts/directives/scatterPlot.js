@@ -142,6 +142,33 @@ app
                         })
                         .text('Finishing Position');
 
+                /// VORONOI
+                var voronoi = d3.geom.voronoi()
+                        .x(function(d) {
+                            return xRange(d[vars.xVar]);
+                        })
+                        .y(function(d) {
+                            return yRange(d[vars.yVar]);
+                        })
+                        .clipExtent([[0,0], [width, height]]);
+                var paths = svg.append('g')
+                        .attr('id', 'voronoi');
+                paths.selectAll('path')
+                        .data(voronoi(data))
+                        .enter()
+                        .append('path')
+                        .attr('d', function(d) {
+                            return 'M' + d.join(',') + 'Z';
+                        })
+                        .style('fill-opacity', 0)
+                        .on('mouseover', function(d) {
+                            d = d.point;
+                            tooltips.show(d);
+                        })
+                        .on('mouseout', function() {
+                            tooltips.hide();
+                        });
+
             }, true);
 
         };
