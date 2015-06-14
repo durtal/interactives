@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html ng-app="Voronoi">
+    <head>
+        <title>Football and Voronoi Diagrams</title>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../bower_components/bootswatch-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="title">
+                <h1>Football + Voronoi</h1>
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="UTVilla" data-size="small" data-hashtags="d3js,Oaks2015,Derby2015">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+                <a href="https://twitter.com/UTVilla" class="twitter-follow-button" data-show-count="false">Follow @UTVilla</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+            </div>
+            <hr>
+            <div class="row" ng-controller="IntroCtrl">
+                <div class="col-sm-12">
+                    <h2>Intro</h2>
+                </div>
+                <div class="col-sm-6">
+                    <p>First a couple of wikiquotes...</p>
+                    <blockquote>Football is a sport played between two teams of eleven players ... played on a rectangular field with a goal at each end.</blockquote>
+                    <blockquote>A <a href="https://en.wikipedia.org/wiki/Voronoi_diagram" target="_blank">Voronoi diagram</a> is a partitioning of a plane into regions based on distance to points in a specific subset of the plane.</blockquote>
+                    <p>In the first quote, swap the word <strong>players</strong> with <strong>points</strong> and the word <strong>field</strong> with <strong>plane</strong> and you've sort of described a Voronoi diagram ('twenty-two points on a rectangular plane').</p>
+                    <p>To the right is a plane with 22 points, colours may or may not resemble Aston Villa and Man City, and may or may not be in 4-4-2 formation, click <button class="btn btn-xs btn-warning"  ng-click="showVoronoi()">here</button> to show the Voronoi diagram created using those 22 points.  This post will very(!) quickly explore this idea (without real data it's just a fun exercise really, one to return to perhaps) and its potential applications to player tracking data in football analysis.  If anyone has any tracking data... hello, pleased to meet you.</p>
+                    <p>Code and stuff is available on <a href="https://github.com/durtal/interactives/tree/master/Football-Voronoi">github</a>.  <a href="https://angularjs.org/">AngularJS</a> and <a href="http://d3js.org/">D3</a> have been used to manage the data and creative the various graphical elements on the page.</p>
+                </div>
+                <div class="col-sm-6">
+                    <voronoi data="teams" show="show" nPlayers="{{11}}"></voronoi>
+                </div>
+            </div>
+            <hr>
+            <div class="row" ng-controller="MainCtrl">
+                <div class="col-sm-12">
+                    <h2>Random Points</h2>
+                </div>
+                <div class="col-sm-6">
+                    <p>The plot to the right is the same as above, two sets of 11 points on a plane in some kind of order.  There are a pair of buttons above the plot, the next button will randomly choose 3 of the 'outfield' points and move them, which updates the Voronoi diagram.  While the Reset button returns the plot to some kind of order.</p>
+                    <p>Player movement is anything but random (unless you support Villa, in which case, embrace the chaos!).  There is structure and the movements players make as they adapt and adjust to the positions of their opponents, their teammates and the ball.</p>
+
+                    <h2>Potential Applications?</h2>
+
+                    <p>Team Based:</p>
+                    <ul>
+                        <li>How does a team react without the ball?</li>
+                        <li>Do they defend narrow surrendering space out wide?</li>
+                        <li>How does a team move the ball, do they try to stretch the pitch?</li>
+                        <li>How does a team get their most dangerous players on the ball?</li>
+                        <li>...</li>
+                    </ul>
+                    <p>Player Based:</p>
+                    <ul>
+                        <li>How successful is a player in finding space?</li>
+                        <li>How successful is a player at finding teammates in space?</li>
+                        <li>How successful is a player with the space he is afforded?  Is he constantly closed down but makes the most of his opportunities?</li>
+                        <li>...</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-md btn-warning disabled" ng-click="reset()" id="reset">Reset</button>
+                    <button class="btn btn-md btn-warning" ng-click="nextStep()">Next</button>
+                    <p><sub>Click <strong>Next</strong> to generate a new plot, and <strong>Reset</strong> to return to '442'.</sub></p>
+                    <voronoi data="teams" show=true></voronoi>
+                </div>
+            </div>
+            <hr>
+            <div class="row" ng-controller="NBACtrl">
+                <div class="col-sm-12">
+                    <h2>NBA</h2>
+                </div>
+                <div class="col-sm-6">
+                    <p>The NBA has tracking data, the movement of players is quite different to that of football, with more focus on 1vs1 battles (although I am not a regular NBA watcher!).  The gif below is an example of the tracking data.  To the right I extracted data for 18 frames (out of 70) that made up the gif, and clicking on the Next or Prev buttons will iterate through the frames.  The plot could clearly use the 3point arc and other 'dimensions', and the addition of the ball.</p>
+                    <figure>
+                        <img src="data/spurs_movement5_part1.gif" alt="">
+                        <figcaption>source: <a href="http://stats.nba.com/featured/movement_animations_2014_10_27.html">NBA</a></figcaption>
+                    </figure>
+                </div>
+                <div class="col-sm-6">
+                    <button class="btn btn-md btn-warning" ng-click="prevFrame()">Prev</button>
+                    <button class="btn btn-md btn-warning" ng-click="nextFrame()">Next</button>
+                    <h4>Frame: {{frame}}</h4>
+                    <voronoi data="teams" show=true></voronoi>
+                </div>
+            </div>
+            <div class="footer" style="height: 50px"></div>
+        </div>
+
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootswatch-dist/js/bootstrap.js"></script>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="../bower_components/underscore/underscore.js"></script>
+
+        <script src="scripts/app.js"></script>
+        <!-- controllers -->
+        <script src="scripts/controllers/IntroCtrl.js"></script>
+        <script src="scripts/controllers/MainCtrl.js"></script>
+        <script src="scripts/controllers/NBACtrl.js"></script>
+        <!-- directives -->
+        <script src="scripts/directives/voronoi.js"></script>
+        <!-- directives -->
+        <script src="scripts/services/NBA.js"></script>
+    </body>
+</html>
