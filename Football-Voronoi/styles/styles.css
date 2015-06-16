@@ -1,0 +1,17 @@
+body {
+    color: #424242;
+    text-align: justify;
+}
+
+.title {
+    text-align: center;
+}
+h1 {
+    font-size: 50px;
+}
+p {
+    font-size: 13px;
+}
+.btn-md {
+    float: left;
+}
