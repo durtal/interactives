@@ -63,6 +63,18 @@ app
                             .style('fill-opacity', 0)
                             .style('stroke', '#424242')
                             .style('stroke-opacity', 0.2);
+                    paths.on('mouseover', function(d) {
+                        // d contains data for path and point
+                        // d.point is x,y coords
+                        d3.select(this)
+                                .style('fill-opacity', 0.2)
+                                .style('fill', '#FFFF00');
+                    })
+                    .on('mouseout', function() {
+                        d3.selectAll('path')
+                                .style('fill-opacity', 0);
+                    });
+
                 }
 
             }, true);
@@ -85,6 +97,19 @@ app
                             .style('fill-opacity', 0)
                             .style('stroke', '#424242')
                             .style('stroke-opacity', 0.2);
+
+                    paths.on('mouseover', function(d) {
+                        // d contains data for path and point
+                        // d.point is x,y coords
+                        d3.select(this)
+                                .style('fill-opacity', 0.2)
+                                .style('fill', '#FFFF00');
+                    })
+                    .on('mouseout', function() {
+                        d3.selectAll('path')
+                                .style('fill-opacity', 0);
+                    });
+
                 } else {
                     d3.selectAll('path').remove();
                 }
