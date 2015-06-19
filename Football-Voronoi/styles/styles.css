@@ -15,3 +15,7 @@ p {
 .btn-md {
     float: left;
 }
+
+table {
+    text-align: center;
+}

@@ -63,16 +63,14 @@ app
                             .style('fill-opacity', 0)
                             .style('stroke', '#424242')
                             .style('stroke-opacity', 0.2);
-                    paths.on('mouseover', function(d) {
+                    paths.on('mouseover', function(d, i) {
                         // d contains data for path and point
                         // d.point is x,y coords
-                        d3.select(this)
-                                .style('fill-opacity', 0.2)
-                                .style('fill', '#FFFF00');
+                        var t = this;
+                        tooltips.show(d, i, t);
                     })
                     .on('mouseout', function() {
-                        d3.selectAll('path')
-                                .style('fill-opacity', 0);
+                        tooltips.hide();
                     });
 
                 }
@@ -98,16 +96,14 @@ app
                             .style('stroke', '#424242')
                             .style('stroke-opacity', 0.2);
 
-                    paths.on('mouseover', function(d) {
+                    paths.on('mouseover', function(d, i) {
                         // d contains data for path and point
                         // d.point is x,y coords
-                        d3.select(this)
-                                .style('fill-opacity', 0.2)
-                                .style('fill', '#FFFF00');
+                        var t = this;
+                        tooltips.show(d, i, t);
                     })
                     .on('mouseout', function() {
-                        d3.selectAll('path')
-                                .style('fill-opacity', 0);
+                        tooltips.hide()
                     });
 
                 } else {
@@ -115,6 +111,17 @@ app
                 }
 
             });
+
+            var tooltips = {};
+            tooltips.show = function(d, i, t) {
+                d3.select(t)
+                        .style('fill-opacity', 0.2)
+                        .style('fill', '#FFFF00');
+            }
+            tooltips.hide = function() {
+                d3.selectAll('path')
+                        .style('fill-opacity', 0);
+            }
 
         }
 
