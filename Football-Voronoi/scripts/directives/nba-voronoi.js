@@ -60,16 +60,6 @@ console.log(scope)
                         .style('stroke', '#D8D8D8')
                         .style('stroke-width', 1)
                         .style('fill', 'none');
-                var arc = d3.svg.arc()
-                        .innerRadius(0.475 * width)
-                        .outerRadius((0.475 * width) + 1)
-                        .startAngle(24.67 * (Math.PI / 180))
-                        .endAngle(155.33 * (Math.PI / 180));
-                svg.append('path')
-                        .attr('d', arc)
-                        .attr('transform', 'translate(200, 100)')
-                        .attr("fill", "red")
-                        .attr('id', 'three-pt-arc')
             }
 
             scope.$watch('data', function(data) {
