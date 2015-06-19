@@ -75,17 +75,83 @@
                     <h2>NBA</h2>
                 </div>
                 <div class="col-sm-6">
-                    <p>The NBA has tracking data, the movement of players is quite different to that of football, with more focus on 1vs1 battles (although I am not a regular NBA watcher!).  The gif below is an example of the tracking data.  To the right I extracted data for 18 frames (out of 70) that made up the gif, and clicking on the Next or Prev buttons will iterate through the frames.  The plot could clearly use the 3point arc and other 'dimensions', and the addition of the ball.</p>
+                    <p>The NBA has tracking data, the movement of players is quite different to that of football, with more focus on 1vs1 battles (although I am not a regular NBA watcher!).  The gif shown is an example of the tracking data, I extracted data for 18 frames (out of 70) that made up the gif, which can be clicked through in the plot below, using the Next or Prev buttons.</p>
+                    <p>I have added the basic lines on a basketball court (though the 3point line is plotted as a circle), to help identify 'landmarks'.  Also included is a table for the 10 players, as you hover over a player in the plot and the area they are in, the distance to the other 9 players is displayed.</p>
+                </div>
+                <div class="col-sm-6">
                     <figure>
                         <img src="data/spurs_movement5_part1.gif" alt="">
                         <figcaption>source: <a href="http://stats.nba.com/featured/movement_animations_2014_10_27.html">NBA</a></figcaption>
                     </figure>
                 </div>
                 <div class="col-sm-6">
+                    <table class="table table-condensed table-hover">
+                        <thead>
+                            <tr class="info">
+                                <td>Player No.</td>
+                                <td>Team</td>
+                                <td>Dist (pixels)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="player0">
+                                <td>2</td>
+                                <td><span style="color: #D00027">Red</span></td>
+                                <td id="player0"></td>
+                            </tr>
+                            <tr id="player1">
+                                <td>9</td>
+                                <td><span style="color: #D00027">Red</span></td>
+                                <td id="player1"></td>
+                            </tr>
+                            <tr id="player2">
+                                <td>20</td>
+                                <td><span style="color: #D00027">Red</span></td>
+                                <td id="player2"></td>
+                            </tr>
+                            <tr id="player3">
+                                <td>21</td>
+                                <td><span style="color: #D00027">Red</span></td>
+                                <td id="player3"></td>
+                            </tr>
+                            <tr id="player4">
+                                <td>33</td>
+                                <td><span style="color: #D00027">Red</span></td>
+                                <td id="player4"></td>
+                            </tr>
+                            <tr id="player5">
+                                <td>1</td>
+                                <td><span style="color: #034694">Blue</span></td>
+                                <td id="player5"></td>
+                            </tr>
+                            <tr id="player6">
+                                <td>3</td>
+                                <td><span style="color: #034694">Blue</span></td>
+                                <td id="player6"></td>
+                            </tr>
+                            <tr id="player7">
+                                <td>6</td>
+                                <td><span style="color: #034694">Blue</span></td>
+                                <td id="player7"></td>
+                            </tr>
+                            <tr id="player8">
+                                <td>9</td>
+                                <td><span style="color: #034694">Blue</span></td>
+                                <td id="player8"></td>
+                            </tr>
+                            <tr id="player9">
+                                <td>34</td>
+                                <td><span style="color: #034694">Blue</span></td>
+                                <td id="player9"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-6">
                     <button class="btn btn-md btn-warning" ng-click="prevFrame()">Prev</button>
                     <button class="btn btn-md btn-warning" ng-click="nextFrame()">Next</button>
                     <h4>Frame: {{frame}}</h4>
-                    <voronoi data="teams" show=true></voronoi>
+                    <nba-voronoi data="teams" court="court"></nba-voronoi>
                 </div>
             </div>
             <div class="footer" style="height: 50px"></div>
@@ -104,7 +170,9 @@
         <script src="scripts/controllers/NBACtrl.js"></script>
         <!-- directives -->
         <script src="scripts/directives/voronoi.js"></script>
+        <script src="scripts/directives/nba-voronoi.js"></script>
         <!-- directives -->
         <script src="scripts/services/NBA.js"></script>
+        <script src="scripts/services/nbaCourt.js"></script>
     </body>
 </html>

@@ -29,7 +29,6 @@ app
         $scope.nextStep = function() {
 
             var players = _.sample([1,2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18,19,20,21], 3);
-            console.log(players);
             if(_.contains(players, 5)) console.log("HELLO PLAYER")
             $scope.teams.forEach(function(d, i) {
 

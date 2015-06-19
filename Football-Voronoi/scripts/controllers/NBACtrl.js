@@ -1,5 +1,5 @@
 app
-    .controller('NBACtrl', function($scope, NBA) {
+    .controller('NBACtrl', function($scope, NBA, NBACourt) {
 
         $scope.frame = 0;
         $scope.nextFrame = function() {
@@ -8,7 +8,6 @@ app
             } else {
                 $scope.frame +=1;
             }
-            console.log($scope.frame);
         }
         $scope.prevFrame = function() {
             if ($scope.frame == 0) {
@@ -23,4 +22,5 @@ app
             $scope.teams = NBA[$scope.frame];
         });
 
+        $scope.court = NBACourt;
     });
