@@ -1,207 +1,256 @@
-// from http://kreese.net/blog/2012/08/26/d3-js-creating-a-polar-area-diagram-radial-bar-chart/
-var timeseries, sdat, series, minVal = 0, maxVal = 6, radius, radiusLength;
-var w = 500, h = 500, axis = 6, time = 10, ruleColor = '#CCC';
-var vizPadding = {
-    top: 25,
-    right: 25,
-    bottom: 25,
-    left: 25
-};
-var numticks = maxVal / 0.5;
-var viz, vizBody, maxs, keys;
+// from https://github.com/prcweb/d3-radialbar/
+function radialBarChart() {
 
-var loadViz = function(){
-  loadData();
-  buildBase();
-  setScales();
-  drawBars(0);
-  addLineAxes();
-  addCircleAxes();
-};
+    // configurable variables
+    var margin = {top: 20, right: 20, bottom: 20, left: 20},
+        barHeight = 100,
+        reverseLayerOrder = false,
+        barColours = undefined,
+        capitaliseLabels = false,
+        domain = [0, 100],
+        tickValues = undefined,
+        colourLabels = false,
+        tickCircleValues = [],
+        transitionDuration = 1000;
 
-var loadData = function(){
-    var randomFromTo = function randomFromTo(from, to){
-       return Math.random() * (to - from) + from;
+    // scales and other useful things
+    var numBars = null,
+        barScale = null,
+        keys = null,
+        labelRadius = 0;
+
+    function init(d) {
+        // scale bar heights
+        barScale = d3.scale.linear()
+            .domain(domain)
+            .range([0, barHeight]);
+        // get data labels
+        keys = d3.map(d[0].data).keys();
+        // number of bars
+        numBars = keys.length;
+        // radius of key labels
+        labelRadius = barHeight * 1.025;
+    }
+
+    function svgRotate(a) {
+        return 'rotate(' + +a +')';
+    }
+
+    function svgTranslate(x, y) {
+        return 'translate(' + +x + ',' + +y + ')';
+    }
+
+    function initChart(container) {
+        // create svg
+        var g = d3.select(container)
+            .append('svg')
+            .style('width', 2 * barHeight + margin.left + margin.right + 'px')
+            .style('height', 2 * barHeight + margin.top + margin.bottom + 'px')
+            .append('g')
+            .classed('radial-barchart', true)
+            .attr('transform', svgTranslate(margin.left + barHeight, margin.top + barHeight));
+        // concentric circles at specified tick values
+        g.append('g')
+            .classed('tick-circles', true)
+            .selectAll('circle')
+            .data(tickCircleValues)
+            .enter()
+            .append('circle')
+            .attr('r', function(d) {
+                return barScale(d);
+            })
+            .style('fill', 'none');
+    }
+
+    function renderOverlays(container) {
+        var g = d3.select(container)
+            .select('svg g.radial-barchart');
+        // spokes
+        g.append('g')
+            .classed('spokes', true)
+            .selectAll('line')
+            .data('keys')
+            .enter()
+            .append('line')
+            .attr('y2', -barHeight)
+            .attr('transform', function(d, i) {
+                return svgRotate(i * 360 / numBars);
+            });
+        // axes
+        var axisScale = d3.scale.linear()
+            .domain(domain)
+            .range([0, -barHeight]);
+        var axis = d3.svg.axis()
+            .scale(axisScale)
+            .orient('right')
+        if(tickValues) {
+            axis.tickValues(tickValues);
+        }
+        g.append('g')
+            .classed('axis', true)
+            .call(axis);
+
+        // outer circle
+        g.append('circle')
+            .attr('r', barHeight)
+            .classed('outer', true)
+            .style('fill', 'none');
+        // labels
+        var labels = g.append('g')
+            .classed('labels', true);
+        labels.append('def')
+            .append('path')
+            .attr('id', 'label-path')
+            .attr('d', 'm0 ' + -labelRadius + ' a' + labelRadius + ' ' + labelRadius + ' 0 1,1 -0.01 0');
+        label.selectAll('text')
+            .data(keys)
+            .enter()
+            .append('text')
+            .style('text-anchor', 'middle')
+            .style('fill', function(d, i) {
+                return colourLabels ? barColours[i % barColours.length] : null;
+            })
+            .append('textPath')
+            .attr('xlink:href', '#label-path')
+            .attr('startOffset', function(d, i) {
+                return i * 100 / numBars + 50 / numBars + '%';
+            })
+            .text(function(d) {
+                return capitaliseLabels ? d.toUpperCase() : d;
+            });
+    }
+
+    function chart(selection) {
+        selection.each(function(d) {
+            init(d);
+            if(reverseLayerOrder) {
+                d.reverse();
+            }
+
+            var g = d3.select(this)
+                .select('svg g.radial-barchart');
+
+            var update = g[0][0] !== null;
+
+            // check whether chart has already been created
+            if(!update) {
+                initChart(this);
+            }
+
+            g = d3.select(this)
+                .select('svg g.radial-barchart');
+
+            // layer enter/exit/update
+            var layers = g.selectAll('g.layer')
+                .data(d);
+            layers
+                .enter()
+                .append('g')
+                .attr('class', function(d, i) {
+                    return 'layer-' + i;
+                })
+                .classed('layer', true);
+
+            // segment enter/exit/update
+            var segments = layers
+                .selectAll('path')
+                .data(function(d) {
+                    var m = d3.map(d.data);
+                    return m.values();
+                });
+            segments
+                .enter()
+                .append('path')
+                .style('fill', function(d, i) {
+                    if(!barColours) return;
+                    return barColours[i % barColours.length];
+                });
+            segments.exit().remove();
+            segments
+                .transition()
+                .duration(transitionDuration)
+                .attr('d', d3.svg.arc()
+                    .innerRadius(0)
+                    .outerRadius(or)
+                    .startAngle(sa)
+                    .endAngle(ea)
+                );
+            if(!update)
+                renderOverlays(this);
+        });
+    }
+
+    // arc functions
+    or = function(d, i) {
+        return barScale(d);
+    }
+    sa = function(d, i) {
+        return (i * 2 * Math.PI) / numBars;
+    }
+    ea = function(d, i) {
+        return ((i + 1) * 2 * Math.PI) / numBars;
+    }
+
+    // configuration getters/setters
+    chart.margin = function(_) {
+        if (!arguments.length) return barHeight;
+        barHeight = _;
+        return chart;
     };
 
-    timeseries = [];
-    sdat = [];
-    keys = ["x", "y", "z", "w", "u", "t"];
+    chart.reverseLayerOrder = function(_) {
+        if (!arguments.length) return reverseLayerOrder;
+        reverseLayerOrder = _;
+        return chart;
+    };
 
-    for (j = 0; j < time; j++) {
-        series = [[]];
-        for (i = 0; i < axis; i++) {
-            series[0][i] = randomFromTo(minVal,maxVal);
-        }
-        // This fills in the line
-/*        for (i = 0; i < series.length; i += 1) {
-            series[i].push(series[i][0]);
-        }
-*/
-        for (i=0; i<=numticks; i++) {
-            sdat[i] = (maxVal/numticks) * i;
-        }
+    chart.barHeight = function(_) {
+        if (!arguments.length) return barHeight;
+        barHeight = _;
+        return chart;
+    };
 
-        timeseries[j] = series;
+    chart.barColours = function(_) {
+        if (!arguments.length) return barColours;
+        barColours = _;
+        return chart;
     }
-};
 
-var buildBase = function(){
-    viz = d3.select("#radial")
-                .append('svg:svg')
-                    .attr('width', w)
-                    .attr('height', h);
+    chart.capitaliseLabels = function(_) {
+        if (!arguments.length) return capitaliseLabels;
+        capitaliseLabels = _;
+        return chart;
+    }
 
-    viz.append("svg:rect")
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('height', 0)
-            .attr('width', 0)
-            .attr('height', 0);
+    chart.domain = function(_) {
+        if (!arguments.length) return domain;
+        domain = _;
+        return chart;
+    }
 
-    vizBody = viz.append("svg:g")
-        .attr('id', 'body');
-};
+    chart.tickValues = function(_) {
+        if (!arguments.length) return tickValues;
+        tickValues = _;
+        return chart;
+    }
 
-setScales = function () {
-  var heightCircleConstraint,
-      widthCircleConstraint,
-      circleConstraint,
-      centerXPos,
-      centerYPos;
+    chart.colourLabels = function(_) {
+        if (!arguments.length) return colourLabels;
+        colourLabels = _;
+        return chart;
+    }
 
-  //need a circle so find constraining dimension
-  heightCircleConstraint = h - vizPadding.top - vizPadding.bottom;
-  widthCircleConstraint = w - vizPadding.left - vizPadding.right;
-  circleConstraint = d3.min([heightCircleConstraint, widthCircleConstraint]);
+    chart.tickCircleValues = function(_) {
+        if(!arguments.length) return tickCircleValues;
+        tickCircleValues = _;
+        return chart;
+    }
 
-  radius = d3.scale.linear().domain([0, maxVal])
-      .range([0, (circleConstraint / 2)]);
-  radiusLength = radius(maxVal);
+    chart.transitionDuration = function(_) {
+        if (!arguments.length) return transitionDuration;
+        transitionDuration = _;
+        return chart;
+    }
 
-  //attach everything to the group that is centered around middle
-  centerXPos = widthCircleConstraint / 2 + vizPadding.left;
-  centerYPos = heightCircleConstraint / 2 + vizPadding.top;
-
-  vizBody.attr("transform", "translate(" + centerXPos + ", " + centerYPos + ")");
-};
-
-addCircleAxes = function() {
-    var radialTicks = radius.ticks(numticks), circleAxes, i;
-
-    vizBody.selectAll('.circle-ticks').remove();
-
-    circleAxes = vizBody.selectAll('.circle-ticks')
-      .data(sdat)
-      .enter().append('svg:g')
-      .attr("class", "circle-ticks");
-
-    circleAxes.append("svg:circle")
-      .attr("r", function (d, i) { return radius(d); })
-      .attr("class", "circle")
-      .style("stroke", ruleColor)
-      .style("opacity", 0.7)
-      .style("fill", "none");
-
-    circleAxes.append("svg:text")
-      .attr("text-anchor", "left")
-      .attr("dy", function (d) { return -1 * radius(d); })
-      .text(String);
+    return chart;
 }
-
-addLineAxes = function () {
-  var radialTicks = radius.ticks(numticks), lineAxes;
-
-  vizBody.selectAll('.line-ticks').remove();
-
-  lineAxes = vizBody.selectAll('.line-ticks')
-      .data(keys)
-      .enter().append('svg:g')
-      .attr("transform", function (d, i) {
-          return "rotate(" + ((i / axis * 360) - 90) +
-              ")translate(" + radius(maxVal) + ")";
-      })
-      .attr("class", "line-ticks");
-
-  lineAxes.append('svg:line')
-      .attr("x2", -1 * radius(maxVal))
-      .style("stroke", ruleColor)
-      .style("opacity", 0.75)
-      .style("fill", "none");
-
-  lineAxes.append('svg:text')
-      .text(function(d,i){ return keys[i]; })
-      .attr("text-anchor", "middle")
-//      .attr("transform", function (d, i) {
-//          return (i / axis * 360) < 180 ? null : "rotate(90)";
-//      });
-};
-
-var draw = function (val) {
-  var groups,
-      lines,
-      linesToUpdate;
-
-  groups = vizBody.selectAll('.series')
-      .data(timeseries[val]);
-  groups.enter().append("svg:g")
-      .attr('class', 'series')
-      .style('fill', "blue")
-      .style('stroke', "blue");
-
-  groups.exit().remove();
-
-  lines = groups.append('svg:path')
-      .attr("class", "line")
-      .attr("id", "userdata")
-      .attr("d", d3.svg.area.radial()
-          .radius(function (d) { return 0; })
-          .angle(function (d, i) { return (i / axis) * 2 * Math.PI; }))
-      .style("stroke-width", 3)
-      .style("fill", "blue")
-      .style("opacity", 0.4);
-
-  lines.attr("d", d3.svg.area.radial()
-      .outerRadius(function (d) { return radius(d); })
-      .innerRadius(function(d) { return 0; })
-      .angle(function (d, i) { return (i / axis) * 2 * Math.PI; }));
-};
-
-
-var drawBars = function(val) {
-    var groups, bar;
-    pie = d3.layout.pie().value(function(d) { return d; }).sort(null);
-    d = [];
-    for(i = 0; i<timeseries[val][0].length; i++) { d.push(1); }
-
-    groups = vizBody.selectAll('.series')
-        .data([d]);
-    groups.enter().append("svg:g")
-        .attr('class', 'series')
-        .style('fill', "blue")
-        .style('stroke', "black");
-
-    groups.exit().remove();
-
-    bar = d3.svg.arc()
-        .innerRadius( 0 )
-        .outerRadius( function(d,i) { return radius( timeseries[val][0][i] ); });
-
-    arcs = groups.selectAll(".series g.arc")
-        .data(pie)
-        .enter()
-            .append("g")
-                .attr("class", "attr");
-
-    arcs.append("path")
-        .attr("fill", "blue")
-        .attr("d", bar)
-        .style("opacity", 0.4);
-}
-
-function redraw( val ) {
-    vizBody.selectAll('#userdata').remove();
-    drawBar( val );
-}
-
-loadViz();
