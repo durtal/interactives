@@ -31,61 +31,6 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-5">
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <button class="show-runs">Show</button>
-                                </td>
-                                <td>
-                                    <button class="runs show-strike-rate">Show</button>
-                                </td>
-                                <td>
-                                    <button class="strike-rate show-runners-beaten">Show</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Age</td>
-                                <td>Wins</td>
-                                <td class="runs">Runs</td>
-                                <td class="strike-rate">SR</td>
-                                <td class="runners-beaten">%RB</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>3</td>
-                                <td class="runs">12</td>
-                                <td class="strike-rate">25%</td>
-                                <td class="runners-beaten">52%</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>3</td>
-                                <td class="runs">21</td>
-                                <td class="strike-rate">14%</td>
-                                <td class="runners-beaten">47%</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>3</td>
-                                <td class="runs">30</td>
-                                <td class="strike-rate">10%</td>
-                                <td class="runners-beaten">45%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/bootswatch-dist/js/bootstrap.js"></script>
         <script src="../bower_components/angular/angular.js"></script>
@@ -94,20 +39,5 @@
 
         <script src="scripts/polarChart.js"></script>
         <script src="scripts/app.js"></script>
-
-        <script>
-        var showRuns
-        $(document).ready(function() {
-            $(".show-runs").on('click', function() {
-                $('.runs').show();
-            });
-            $(".show-strike-rate").on('click', function() {
-                $('.strike-rate').show();
-            });
-            $(".show-runners-beaten").on('click', function() {
-                $('.runners-beaten').show();
-            })
-        });
-        </script>
     </body>
 </html>

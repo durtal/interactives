@@ -102,7 +102,7 @@ function radialBarChart() {
             .append('path')
             .attr('id', 'label-path')
             .attr('d', 'm0 ' + -labelRadius + ' a' + labelRadius + ' ' + labelRadius + ' 0 1,1 -0.01 0');
-        label.selectAll('text')
+        labels.selectAll('text')
             .data(keys)
             .enter()
             .append('text')
