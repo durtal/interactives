@@ -1,5 +1,4 @@
 d3.json('data/data.json', function(err, data) {
-    console.log(data);
     var chart = radialBarChart()
         .barHeight(250)
         .reverseLayerOrder(true)

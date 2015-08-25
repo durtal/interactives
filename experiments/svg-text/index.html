@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Experiments and Tests</title>
+
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../../bower_components/bootswatch-dist/css/bootstrap.css">
+        <link rel="stylesheet" href="../../bower_components/highlightjs/styles/monokai_sublime.css">
+        <script src="../../bower_components/highlightjs/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <style>
+        .preview {
+            width: 100%;
+            height: 100%;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .title {
+            text-align: center;
+        }
+        p {
+            text-align: justify;
+            font-size: 11px;
+        }
+        .line {
+            fill: none;
+            stroke: #212B35;
+            stroke-width: 4px;
+        }
+        .spokes {
+            stroke: #969696;
+            stroke-width: 10px;
+        }
+        </style>
+    </head>
+    <body>
+    <script src="../../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../../bower_components/bootswatch-dist/js/bootstrap.js"></script>
+    <script src="../../bower_components/d3/d3.js"></script>
+        <div class="container">
+            <div class="title">
+                <h2>Code and Examples</h2>
+            </div>
+            <hr>
+            <div class="row" style="height: 400px">
+                <div class="col-sm-6" id="circle-container">
+                    <h3 class="title">Background Circles</h3>
+                    <div id="circle"></div>
+
+                    <script>
+                    var w = d3.select("#circle-container")
+                            .node()
+                            .getBoundingClientRect()
+                            .width,
+                        h = w * 0.6,
+                        r = (w / 2) * 0.55;
+                    var svg = d3.select("#circle")
+                        .append("svg")
+                        .attr({
+                            height: h,
+                            width: w
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w/2,
+                            cy: h/2,
+                            r: r,
+                            fill: "#212B35",
+                            id: "outer-circle"
+                        });
+                    var g = svg.append("g")
+                        .attr({
+                            id: "origin",
+                            transform: "translate(" + w/2 + "," + h/2 + ")"
+                        });
+                    g.append("g")
+                        .attr("class", "spokes")
+                        .selectAll("line")
+                        .data(d3.range(7))
+                        .enter().append("line")
+                        .attr("y2", -r*1.01)
+                        .attr("transform", function(d, i) {
+                            return "rotate(" + i*360/7 + ")";
+                        })
+                        .style({
+                            "stroke": "#FFFFFF",
+                            "stroke-width": "10px"
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: h / 2,
+                            r: r * 0.87,
+                            fill: "#FFFFFF"
+                        })
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: h / 2,
+                            r: r * 0.86,
+                            fill: "#EAEAEA"
+                        });
+                    </script>
+                </div>
+                <div class="col-sm-6" id="circleTextContainer">
+                    <h3 class="title">Circular Text</h3>
+                    <div id="circleText">
+
+                    </div>
+                    <script>
+                    var w = d3.select("#circleText")
+                            .node()
+                            .getBoundingClientRect()
+                            .width,
+                        h = w * 0.6,
+                        r = (w / 2) * 0.55;
+                    var svg = d3.select("#circleText")
+                        .append("svg")
+                        .attr({
+                            height: h,
+                            width: w
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: h / 2,
+                            r: r,
+                            fill: "#212B35",
+                            id: "outer-circle"
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: h / 2,
+                            r: r * 0.87,
+                            fill: "#FFFFFF"
+                        })
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: h / 2,
+                            r: r * 0.86,
+                            fill: "#EAEAEA"
+                        });
+                    var arc = d3.svg.arc()
+                        .startAngle(0)
+                        .endAngle(Math.PI*2)
+                        .innerRadius(r * 0.89)
+                        .outerRadius(r * 0.89);
+                    svg.append("path")
+                        .attr("d", arc)
+                        .attr("transform", "translate(" + w/2 + "," + h/2 + ")")
+                        .attr("id", "categories");
+                    svg.append("text")
+                        .style("font-size", "12px")
+                        .append("textPath")
+                        .attr("xlink:href", "#categories")
+                        .text("HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD! HELLO WORLD!")
+                        .style("fill", "white");
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+        <hr>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3 class="title">Background Circles and Circular Text Combined</h3>
+                    <small class"title">Not sure why this works!!</small>
+                    <div id="circle-complete">
+                        <code>&ltdiv id="circle-complete"&gt&lt/div&gt</code>
+                    </div>
+
+                    <script>
+                    var w = d3.select("#circle-complete")
+                            .node().getBoundingClientRect()
+                            .width,
+                        h = w,
+                        r = (w / 2) * 0.90;
+                    var svg = d3.select("#circle-complete")
+                        .append("svg")
+                        .attr({
+                            height: h,
+                            width: w
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: w / 2,
+                            r: r,
+                            fill: "#212B35",
+                            id: "category-circle"
+                        });
+                    var g = svg.append("g")
+                        .attr({
+                            id: "origin",
+                            transform: "translate(" + w/2 + "," + w/2 + ")"
+                        });
+                    g.append("g")
+                        .attr("class", "spokes")
+                        .selectAll("line")
+                        .data(d3.range(6))
+                        .enter().append("line")
+                        .attr("y2", -r*1.01)
+                        .attr("transform", function(d, i) {
+                            return "rotate(" + (i*360/6) + ")";
+                        })
+                        .style({
+                            "stroke": "#FFFFFF",
+                            "stroke-width": "10px"
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: w / 2,
+                            r: r * 0.87,
+                            fill: "#FFFFFF"
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w / 2,
+                            cy: w / 2,
+                            r: r * 0.86,
+                            fill: "#EAEAEA"
+                        });
+                    var labels = svg.append("g")
+                        .classed("labels", true);
+                    var arc = d3.svg.arc()
+                        .startAngle(0).endAngle(Math.PI*2)
+                        .innerRadius(r*0.9).outerRadius(r*0.9);
+                    labels.append("path")
+                        .attr("id", "category-labels-path")
+                        .attr("d", arc)
+                        .attr("transform", "translate(" + w/2 + "," + w/2 + ")")
+                        // .style({
+                        //     stroke: "#EAEAEA",
+                        //     "stroke-width": "2px"
+                        // });
+                    labels.selectAll("text")
+                        .data(["HEADER 1", "HEADER 2", "HEADER 3", "HEADER 4", "HEADER 5", "HEADER 6"])
+                        .enter().append("text")
+                        .style("text-anchor", "middle")
+                        .style("fill", "#EAEAEA")
+                        .append("textPath")
+                        .attr("xlink:href", "#category-labels-path")
+                        .attr("startOffset", function(d, i) {
+                            return i * 100 / 12 + 50 / 12 + "%";
+                        })
+                        .text(function(d) {
+                            return d;
+                        });
+                    var sublabels = svg.append("g")
+                        .classed("sub-labels", true);
+                    var arc = d3.svg.arc()
+                        .startAngle(0).endAngle(Math.PI*2)
+                        .innerRadius(r*0.8).outerRadius(r*0.8);
+                    sublabels.append("path")
+                        .attr("id", "sub-category-labels-path")
+                        .attr("d", arc)
+                        .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
+                    sublabels.selectAll("text")
+                        .data(["sub header 1", "sub header 2", "sub header 3",
+                            "sub header 4", "sub header 5", "sub header 6",
+                            "sub header 7", "sub header 8", "sub header 9",
+                            "sub header 10", "sub header 11", "sub header 12"
+                        ])
+                        .enter().append("text")
+                        .style("text-anchor", "middle")
+                        .style("fill", "#212B35")
+                        .style("font-size", "12px")
+                        .append("textPath")
+                        .attr("xlink:href", "#sub-category-labels-path")
+                        .attr("startOffset", function(d, i) {
+                            return i * 100 / 24 + 50 / 24 + "%";
+                        })
+                        .text(function(d) {
+                            return d;
+                        });
+                    svg.append("circle")
+                        .attr({
+                            cx: w/2,
+                            cy: w/2,
+                            r: r*0.75,
+                            fill: "#FFFFFF"
+                        });
+                    var g = svg.append("g")
+                        .attr({
+                            id: "origin",
+                            transform: "translate(" + w / 2 + "," + w /2 + ")"
+                        });
+                    g.append("g")
+                        .attr("class", "spokes")
+                        .selectAll("line")
+                        .data(d3.range(6))
+                        .enter().append("line")
+                        .attr("y2", -r*1.01)
+                        .attr("transform", function(d, i) {
+                            return "rotate(" + (i * 360 / 6) + ")";
+                        })
+                        .style({
+                            "stroke": "#FFFFFF",
+                            "stroke-width": "10px"
+                        });
+                    g.append("g")
+                        .attr("class", "sub-spokes")
+                        .selectAll("line")
+                        .data(d3.range(12))
+                        .enter().append("line")
+                        .attr("y2", (-r * 0.86) * 1.01)
+                        .attr("transform", function(d, i) {
+                            return "rotate(" + (i * 360 / 12) + ")";
+                        })
+                        .style({
+                            "stroke": "#FFFFFF",
+                            "stroke-width": "3px"
+                        });
+                    </script>
+                </div>
+                <div class="col-sm-6">
+<pre style="height: 600px; overflow: scroll"><code class="javascript">var w = d3.select("#circle-complete")
+        .node().getBoundingClientRect()
+        .width,
+    h = w,
+    r = (w / 2) * 0.90;
+var svg = d3.select("#circle-complete")
+    .append("svg")
+    .attr({
+        height: h,
+        width: w
+    });
+svg.append("circle")
+    .attr({
+        cx: w / 2,
+        cy: w / 2,
+        r: r,
+        fill: "#212B35",
+        id: "category-circle"
+    });
+var g = svg.append("g")
+    .attr({
+        id: "origin",
+        transform: "translate(" + w/2 + "," + w/2 + ")"
+    });
+g.append("g")
+    .attr("class", "spokes")
+    .selectAll("line")
+    .data(d3.range(6))
+    .enter().append("line")
+    .attr("y2", -r*1.01)
+    .attr("transform", function(d, i) {
+        return "rotate(" + (i*360/6) + ")";
+    })
+    .style({
+        "stroke": "#FFFFFF",
+        "stroke-width": "10px"
+    });
+svg.append("circle")
+    .attr({
+        cx: w / 2,
+        cy: w / 2,
+        r: r * 0.87,
+        fill: "#FFFFFF"
+    });
+svg.append("circle")
+    .attr({
+        cx: w / 2,
+        cy: w / 2,
+        r: r * 0.86,
+        fill: "#EAEAEA"
+    });
+var labels = svg.append("g")
+    .classed("labels", true);
+var arc = d3.svg.arc()
+    .startAngle(0).endAngle(Math.PI*2)
+    .innerRadius(r*0.9).outerRadius(r*0.9);
+labels.append("path")
+    .attr("id", "category-labels-path")
+    .attr("d", arc)
+    .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
+labels.selectAll("text")
+    .data(["HEADER 1", "HEADER 2", "HEADER 3", "HEADER 4", "HEADER 5", "HEADER 6"])
+    .enter().append("text")
+    .style("text-anchor", "middle")
+    .style("fill", "#EAEAEA")
+    .append("textPath")
+    .attr("xlink:href", "#category-labels-path")
+    .attr("startOffset", function(d, i) {
+        return i * 100 / 12 + 50 / 12 + "%";
+    })
+    .text(function(d) {
+        return d;
+    });
+var g = svg.append("g")
+    .attr({
+        id: "origin",
+        transform: "translate(" + w / 2 + "," + w /2 + ")"
+    });
+g.append("g")
+    .attr("class", "spokes")
+    .selectAll("line")
+    .data(d3.range(6))
+    .enter().append("line")
+    .attr("y2", -r*1.01)
+    .attr("transform", function(d, i) {
+        return "rotate(" + (i * 360 / 6) + ")";
+    })
+    .style({
+        "stroke": "#FFFFFF",
+        "stroke-width": "10px"
+    });
+g.append("g")
+    .attr("class", "sub-spokes")
+    .selectAll("line")
+    .data(d3.range(12))
+    .enter().append("line")
+    .attr("y2", (-r * 0.86) * 1.01)
+    .attr("transform", function(d, i) {
+        return "rotate(" + (i * 360 / 12) + ")";
+    })
+    .style({
+        "stroke": "#FFFFFF",
+        "stroke-width": "3px"
+    });</code></pre>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
