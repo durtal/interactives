@@ -178,6 +178,63 @@
                             .width,
                         h = w,
                         r = (w / 2) * 0.90;
+                    ////////////////////////////////////////////////////////////
+                    // dummy data
+                    // var data = {
+                    //     "Header 1" : {
+                    //         "sub-header-1": 0.45,
+                    //         "sub-header-2": 0.67
+                    //     },
+                    //     "Header 2" : {
+                    //         "sub-header-3": 0.78,
+                    //         "sub-header-4": 0.23
+                    //     },
+                    //     "Header 3" : {
+                    //         "sub-header-5": 0.34,
+                    //         "sub-header-6": 0.37
+                    //     },
+                    //     "Header 4" : {
+                    //         "sub-header-7": 0.56,
+                    //         "sub-header-8": 0.45
+                    //     },
+                    //     "Header 5" : {
+                    //         "sub-header-9": 0.75,
+                    //         "sub-header-10": 0.82
+                    //     },
+                    //     "Header 6" : {
+                    //         "sub-header-11": 0.12,
+                    //         "sub-header-12": 0.23
+                    //     }
+                    // };
+                    var data = {
+                        "Header 1" : {
+                            "sub-header-1": 0.45,
+                            "sub-header-2": 0.67
+                        },
+                        "Header 2" : {
+                            "sub-header-3": 0.78,
+                            "sub-header-4": 0.23
+                        },
+                        "Header 3" : {
+                            "sub-header-5": 0.34,
+                            "sub-header-6": 0.37
+                        },
+                        "Header 4" : {
+                            "sub-header-7": 0.56,
+                            "sub-header-8": 0.45
+                        },
+                        "Header 5" : {
+                            "sub-header-9": 0.75,
+                            "sub-header-10": 0.82
+                        }
+                    };
+                    var HEADERS = Object.keys(data);
+                    var subHEADERS = [];
+                    for(k in HEADERS) {
+                        subHEADERS.push(Object.keys(data[HEADERS[k]]));
+                    }
+                    subHEADERS = subHEADERS.concat.apply([], subHEADERS)
+                    ////////////////////////////////////////////////////////////
                     var svg = d3.select("#circle-complete")
                         .append("svg")
                         .attr({
@@ -191,24 +248,6 @@
                             r: r,
                             fill: "#212B35",
                             id: "category-circle"
-                        });
-                    var g = svg.append("g")
-                        .attr({
-                            id: "origin",
-                            transform: "translate(" + w/2 + "," + w/2 + ")"
-                        });
-                    g.append("g")
-                        .attr("class", "spokes")
-                        .selectAll("line")
-                        .data(d3.range(6))
-                        .enter().append("line")
-                        .attr("y2", -r*1.01)
-                        .attr("transform", function(d, i) {
-                            return "rotate(" + (i*360/6) + ")";
-                        })
-                        .style({
-                            "stroke": "#FFFFFF",
-                            "stroke-width": "10px"
                         });
                     svg.append("circle")
                         .attr({
@@ -232,20 +271,16 @@
                     labels.append("path")
                         .attr("id", "category-labels-path")
                         .attr("d", arc)
-                        .attr("transform", "translate(" + w/2 + "," + w/2 + ")")
-                        // .style({
-                        //     stroke: "#EAEAEA",
-                        //     "stroke-width": "2px"
-                        // });
+                        .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
                     labels.selectAll("text")
-                        .data(["HEADER 1", "HEADER 2", "HEADER 3", "HEADER 4", "HEADER 5", "HEADER 6"])
+                        .data(HEADERS)
                         .enter().append("text")
                         .style("text-anchor", "middle")
                         .style("fill", "#EAEAEA")
                         .append("textPath")
                         .attr("xlink:href", "#category-labels-path")
                         .attr("startOffset", function(d, i) {
-                            return i * 100 / 12 + 50 / 12 + "%";
+                            return i * 100 / (HEADERS.length * 2) + 50 / (HEADERS.length * 2) + "%";
                         })
                         .text(function(d) {
                             return d;
@@ -260,11 +295,7 @@
                         .attr("d", arc)
                         .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
                     sublabels.selectAll("text")
-                        .data(["sub header 1", "sub header 2", "sub header 3",
-                            "sub header 4", "sub header 5", "sub header 6",
-                            "sub header 7", "sub header 8", "sub header 9",
-                            "sub header 10", "sub header 11", "sub header 12"
-                        ])
+                        .data(subHEADERS)
                         .enter().append("text")
                         .style("text-anchor", "middle")
                         .style("fill", "#212B35")
@@ -272,7 +303,7 @@
                         .append("textPath")
                         .attr("xlink:href", "#sub-category-labels-path")
                         .attr("startOffset", function(d, i) {
-                            return i * 100 / 24 + 50 / 24 + "%";
+                            return i * 100 / (subHEADERS.length * 2) + 50 / (subHEADERS.length * 2) + "%";
                         })
                         .text(function(d) {
                             return d;
@@ -292,11 +323,12 @@
                     g.append("g")
                         .attr("class", "spokes")
                         .selectAll("line")
-                        .data(d3.range(6))
+                        .data(d3.range(HEADERS.length))
                         .enter().append("line")
                         .attr("y2", -r*1.01)
                         .attr("transform", function(d, i) {
-                            return "rotate(" + (i * 360 / 6) + ")";
+                            console.log(i * 360 / HEADERS.length + 180)
+                            return "rotate(" + (i * 360 / HEADERS.length + 180) + ")";
                         })
                         .style({
                             "stroke": "#FFFFFF",
@@ -305,11 +337,11 @@
                     g.append("g")
                         .attr("class", "sub-spokes")
                         .selectAll("line")
-                        .data(d3.range(12))
+                        .data(d3.range(subHEADERS.length))
                         .enter().append("line")
                         .attr("y2", (-r * 0.86) * 1.01)
                         .attr("transform", function(d, i) {
-                            return "rotate(" + (i * 360 / 12) + ")";
+                            return "rotate(" + (i * 360 / subHEADERS.length) + ")";
                         })
                         .style({
                             "stroke": "#FFFFFF",
@@ -323,6 +355,63 @@
         .width,
     h = w,
     r = (w / 2) * 0.90;
+////////////////////////////////////////////////////////////
+// dummy data
+var data = {
+    "Header 1" : {
+        "sub-header-1": 0.45,
+        "sub-header-2": 0.67
+    },
+    "Header 2" : {
+        "sub-header-3": 0.78,
+        "sub-header-4": 0.23
+    },
+    "Header 3" : {
+        "sub-header-5": 0.34,
+        "sub-header-6": 0.37
+    },
+    "Header 4" : {
+        "sub-header-7": 0.56,
+        "sub-header-8": 0.45
+    },
+    "Header 5" : {
+        "sub-header-9": 0.75,
+        "sub-header-10": 0.82
+    },
+    "Header 6" : {
+        "sub-header-11": 0.12,
+        "sub-header-12": 0.23
+    }
+};
+// var data = {
+//     "Header 1" : {
+//         "sub-header-1": 0.45,
+//         "sub-header-2": 0.67
+//     },
+//     "Header 2" : {
+//         "sub-header-3": 0.78,
+//         "sub-header-4": 0.23
+//     },
+//     "Header 3" : {
+//         "sub-header-5": 0.34,
+//         "sub-header-6": 0.37
+//     },
+//     "Header 4" : {
+//         "sub-header-7": 0.56,
+//         "sub-header-8": 0.45
+//     },
+//     "Header 5" : {
+//         "sub-header-9": 0.75,
+//         "sub-header-10": 0.82
+//     }
+// };
+var HEADERS = Object.keys(data);
+var subHEADERS = [];
+for(k in HEADERS) {
+    subHEADERS.push(Object.keys(data[HEADERS[k]]));
+}
+subHEADERS = subHEADERS.concat.apply([], subHEADERS)
+////////////////////////////////////////////////////////////
 var svg = d3.select("#circle-complete")
     .append("svg")
     .attr({
@@ -336,24 +425,6 @@ svg.append("circle")
         r: r,
         fill: "#212B35",
         id: "category-circle"
-    });
-var g = svg.append("g")
-    .attr({
-        id: "origin",
-        transform: "translate(" + w/2 + "," + w/2 + ")"
-    });
-g.append("g")
-    .attr("class", "spokes")
-    .selectAll("line")
-    .data(d3.range(6))
-    .enter().append("line")
-    .attr("y2", -r*1.01)
-    .attr("transform", function(d, i) {
-        return "rotate(" + (i*360/6) + ")";
-    })
-    .style({
-        "stroke": "#FFFFFF",
-        "stroke-width": "10px"
     });
 svg.append("circle")
     .attr({
@@ -379,17 +450,47 @@ labels.append("path")
     .attr("d", arc)
     .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
 labels.selectAll("text")
-    .data(["HEADER 1", "HEADER 2", "HEADER 3", "HEADER 4", "HEADER 5", "HEADER 6"])
+    .data(HEADERS)
     .enter().append("text")
     .style("text-anchor", "middle")
     .style("fill", "#EAEAEA")
     .append("textPath")
     .attr("xlink:href", "#category-labels-path")
     .attr("startOffset", function(d, i) {
-        return i * 100 / 12 + 50 / 12 + "%";
+        return i * 100 / (HEADERS.length * 2) + 50 / (HEADERS.length * 2) + "%";
     })
     .text(function(d) {
         return d;
+    });
+var sublabels = svg.append("g")
+    .classed("sub-labels", true);
+var arc = d3.svg.arc()
+    .startAngle(0).endAngle(Math.PI*2)
+    .innerRadius(r*0.8).outerRadius(r*0.8);
+sublabels.append("path")
+    .attr("id", "sub-category-labels-path")
+    .attr("d", arc)
+    .attr("transform", "translate(" + w/2 + "," + w/2 + ")");
+sublabels.selectAll("text")
+    .data(subHEADERS)
+    .enter().append("text")
+    .style("text-anchor", "middle")
+    .style("fill", "#212B35")
+    .style("font-size", "12px")
+    .append("textPath")
+    .attr("xlink:href", "#sub-category-labels-path")
+    .attr("startOffset", function(d, i) {
+        return i * 100 / (subHEADERS.length * 2) + 50 / (subHEADERS.length * 2) + "%";
+    })
+    .text(function(d) {
+        return d;
+    });
+svg.append("circle")
+    .attr({
+        cx: w/2,
+        cy: w/2,
+        r: r*0.75,
+        fill: "#FFFFFF"
     });
 var g = svg.append("g")
     .attr({
@@ -399,11 +500,12 @@ var g = svg.append("g")
 g.append("g")
     .attr("class", "spokes")
     .selectAll("line")
-    .data(d3.range(6))
+    .data(d3.range(HEADERS.length))
     .enter().append("line")
     .attr("y2", -r*1.01)
     .attr("transform", function(d, i) {
-        return "rotate(" + (i * 360 / 6) + ")";
+        console.log(i * 360 / HEADERS.length + 180)
+        return "rotate(" + (i * 360 / HEADERS.length + 180) + ")";
     })
     .style({
         "stroke": "#FFFFFF",
@@ -412,11 +514,11 @@ g.append("g")
 g.append("g")
     .attr("class", "sub-spokes")
     .selectAll("line")
-    .data(d3.range(12))
+    .data(d3.range(subHEADERS.length))
     .enter().append("line")
     .attr("y2", (-r * 0.86) * 1.01)
     .attr("transform", function(d, i) {
-        return "rotate(" + (i * 360 / 12) + ")";
+        return "rotate(" + (i * 360 / subHEADERS.length) + ")";
     })
     .style({
         "stroke": "#FFFFFF",
