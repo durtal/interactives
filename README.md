@@ -1,7 +1,7 @@
 Interactive Experiments
 =======================
 
-This repo will contain various interactive visualisation projects I start, attempt, bludgeon, butcher, complete?, etc.
+This repo will contain various interactive visualisation projects I start (don't start), attempt, bludgeon, butcher, complete?, etc.
 
 The primary Javascript libraries I use are [D3js](http://d3js.org/) and [AngularJS](https://angularjs.org/), though I will hopefully explore alternatives.  I'll also attempt to list tutorials, posts, examples that I found useful/inspiring when attempting any of these projects.
 
